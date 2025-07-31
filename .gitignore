@@ -1,0 +1,6 @@
+public/
+resources/
+node_modules/
+git_info.json
+.hugo_build.lock
+.*.swp
