@@ -18,11 +18,11 @@
       <div class="px-4 text-gray-900 dark:text-white not-prose dark:text-zinc-200">
         <div class="grid gap-4 mx-auto mt-12 mb-4 lg:max-w-none md:grid-cols-5">
           {{ range .Site.Params.Section4.Partners }}
-          <div class="flex flex-col overflow-hidden rounded-lg shadow-lg bg-gray-50 dark:bg-gray-900">
+          <div class="flex flex-col items-center justify-center overflow-hidden rounded-lg shadow-lg bg-gray-50 dark:bg-gray-900">
             {{ with .featured_image }}
             {{ with resources.Get . }}
-            {{ $postimage := .RelPermalink }}
-            <img src="{{ $postimage }}" class="object-fill overflow-hidden rounded-t-lg w-12 h-12"  loading="lazy" alt="{{ .Title }}" />
+            {{ $postimage := (.Resize "100x webp q90").RelPermalink }}
+            <img src="{{ $postimage }}" class="object-fill overflow-hidden rounded-t-lg"  loading="lazy" alt="{{ .Title }}" />
             {{ end }}
             {{ end }}
           </div>

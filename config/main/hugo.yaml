@@ -103,6 +103,10 @@ params:
       - title: 'QUT'
         featured_image: 'images/main/partner_logos/qut.png'
 
+  section5:
+    title: "Fasten your Imaging research with us."
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+    button: 'Start today'
   social_media:
     github:
       enabled: true

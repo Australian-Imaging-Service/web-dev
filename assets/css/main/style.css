@@ -65,10 +65,18 @@
   grid-template-columns: repeat(5, minmax(0, 1fr));
 }
 
-.w-12 { 
-  width: 3rem;
+.top-1\/2 {
+  top: 50%;
 }
 
-.h-12 { 
-  height: 3rem;
+.transform-y {
+  transform: translateY(-50%);
+}
+
+.opacity-30 {
+  opacity: 30%;
+}
+
+button {
+  background-color: rgba(48, 90, 217, 1);
 }
