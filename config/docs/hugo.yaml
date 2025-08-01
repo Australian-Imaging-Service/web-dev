@@ -6,7 +6,7 @@ contentDir: content
 module:
   # uncomment line below for temporary local development of module
   # or when using a 'theme' as a git submodule
-  replacements: "github.com/colinwilson/lotusdocs -> lotusdocs"
+  # replacements: "github.com/colinwilson/lotusdocs -> lotusdocs"
   imports:
     path: "github.com/colinwilson/lotusdocs"
     disable: false
