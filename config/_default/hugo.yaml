@@ -1,3 +1,6 @@
 baseURL: /
 languageCode: en-us
 title: Australian Imaging Service
+caches:
+  images:
+    dir: :cacheDir/images
