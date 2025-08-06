@@ -33,16 +33,11 @@
 .col-span-3 {
   grid-column: span 3 / span 3;
 }
-/* main {
-    background-image: url(/images/main/main_1.png);
-    background-position: 50% 0;
-    background-repeat: no-repeat;
-} */
 
-.bg-img {
-    background-position: 10% 50%;
+.main-bg {
+    background-image: url(/images/main_1.png);
+    background-position: 50% bottom;
     background-repeat: no-repeat;
-    background-size: 100% 100%;
 }
 
 .bg-gradient-right {
@@ -54,7 +49,12 @@
 }
 
 .bg-gradient {
-  background: radial-gradient(20% 20% at 50% 40%, #305AD9 0%, rgba(48, 90, 217, 0) 100%)
+  background: radial-gradient(20% 50% at 50% 50%, #305AD9 0%, rgba(48, 90, 217, 0) 100%);
+}
+
+.bg-l-gradient {
+  background: linear-gradient(90deg, #080E26 0.5%, rgba(8, 14, 38, 0.754671) 15%, rgba(8, 14, 38, 0) 30%) left, linear-gradient(270deg, #080E26 0.5%, rgba(8, 14, 38, 0.754671) 15%, rgba(8, 14, 38, 0) 30%) right;
+  padding-bottom: 45%;
 }
 
 .font-green {
@@ -63,6 +63,10 @@
 
 .md\:grid-cols-5 {
   grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.md\:grid-cols-6 {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
 }
 
 .top-1\/2 {
@@ -79,4 +83,12 @@
 
 button {
   background-color: rgba(48, 90, 217, 1);
+}
+
+.col-span-3-7 {
+  grid-column: 3 / 7;
+}
+
+.justify-end {
+  justify-content: end;
 }

@@ -1,26 +1,23 @@
 {{ define "main" }}
 <main>
     <div class="bg-gray-200 dark:bg-gray-900">
-        <div class="max-w-screen-xl px-4 py-8 mx-auto">
-            <div class="grid items-center gap-8 mb-8 sm:mb-0 lg:gap-12 lg:grid-cols-2 bg-gradient">
-                <div class="col-span-6 px-4 text-center sm:mb-6 lg:mb-0">
-                    <br><br><br><br><br>
+        <div class="max-w-screen-xl px-4 mx-auto">
+            <div class="grid items-center gap-8 sm:mb-0 lg:gap-12 lg:grid-cols-2 main-bg">
+                <div class="col-span-6 mt-12 px-4 text-center sm:mb-6 lg:mb-0 bg-gradient">
                     <h1 class="mb-2 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl xl:text-6xl dark:text-white">
                         {{ .Site.Params.Title_1 }}
                     </h1>
                     <h1 class="mb-2 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl xl:text-6xl dark:text-white">
                         {{ .Site.Params.Title_2 }}
                     </h1>
-                    <h2 class="pb-2 text-3xl font-light text-gray-800 dark:text-gray-300 md:text-4xl">
+                    <h2 class="pb-2 text-2xl font-light text-gray-800 dark:text-gray-300 md:text-2xl">
                         {{ .Site.Params.Moto }}
                     </h2>
                     <p class="max-w-xl mx-auto mb-6 font-normal text-gray-900 lg:mx-0 xl:mb-2 md:text-lg xl:text-xl dark:text-gray-50">
                         {{ .Site.Params.Description}}
                     </p>
                 </div>
-                <div class="col-span-6">
-                  {{ $hero := resources.GetMatch "images/main/main_1.png" }}
-                    <img src="{{ $hero.RelPermalink }}" width="100%" height="" alt="AIS Hero" class="w-full max-w-xl mx-auto rounded-lg" />
+                <div class="col-span-6 bg-l-gradient">
                 </div>
             </div>
         </div>

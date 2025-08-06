@@ -169,26 +169,57 @@ menu:
       url: "#"
       weight: 30
   footer:
+    - identifier: features
+      name: Features
+      weight: 10
+    - name: 'Data Management'
+      url: 'features/data_management'
+      parent: features
+    - name: 'Automated Pipelines'
+      url: 'features/automated_pipelines'
+      parent: features
+    - name: 'Interactive Analysis'
+      url: 'features/interactive_analysis'
+      parent: features
+    - name: 'Machine Learning'
+      url: 'features/machine_learning'
+      parent: features
+    - identifier: docs
+      name: Docs
+      weight: 20
+    - name: 'Researchers'
+      url: 'docs/recearchers'
+      parent: docs
+    - name: 'Facility Staff'
+      url: 'docs/facility_staff'
+      parent: docs
+    - name: 'Technicians'
+      url: 'docs/technicians'
+      parent: docs
     - identifier: about
       name: About
-      url: /about/
-      weight: 10
-    - identifier: blog
-      name: Blog
-      url: /categories/blog/
-      weight: 20
-    - identifier: news
-      name: News
-      url: /categories/news/
       weight: 30
-    - identifier: prose
-      name: Prose
-      url: /prose/
+    - name: 'Mission'
+      url: 'about/mission'
+      parent: about
+    - name: 'Federation'
+      url: 'about/federation'
+      parent: about
+    - name: 'Compliance'
+      url: 'about/compliance'
+      parent: about
+    - name: 'Funders'
+      url: 'about/funders'
+      parent: about
+    - identifier: support
+      name: Support
       weight: 40
-    - identifier: contact
-      name: Contact
-      url: /contact/
-      weight: 50
+    - name: 'Find Nodes'
+      url: 'support/find_nodes'
+      parent: support
+    - name: 'Contact Us'
+      url: 'support/federation'
+      parent: support
 
 markup:
   goldmark:
