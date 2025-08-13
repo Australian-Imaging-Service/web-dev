@@ -1,7 +1,9 @@
-baseURL: ''
+baseURL: /
 languageCode: en-us
 title: Australian Imaging Service
-contentDir: content
+contentDir: content/docs
+publishDir: public/docs
+staticDir: static/docs
 
 module:
   # uncomment line below for temporary local development of module
@@ -11,7 +13,7 @@ module:
     path: "github.com/colinwilson/lotusdocs"
     disable: false
   imports:
-    path: "github.com/gohugoio/hugo-mod-bootstrap-scss/v5"
+    path: "github.com/gohugoio/hugo-mod-bootstrap-scss"
     disable: false
 
 markup:
