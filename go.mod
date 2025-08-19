@@ -1,5 +1,9 @@
-module github.com/colinwilson/lotusdocs
+module github.com/Australian-Imaging-Service/web-dev
 
-go 1.21
+go 1.24.5
 
-require github.com/gohugoio/hugo-mod-bootstrap-scss v5.20300.20400 // indirect
+require (
+	github.com/gohugoio/hugo-mod-bootstrap-scss/v5 v5.20300.20400 // indirect
+	github.com/gohugoio/hugo-mod-jslibs-dist/popperjs/v2 v2.21100.20000 // indirect
+	github.com/twbs/bootstrap v5.3.7+incompatible // indirect
+)
