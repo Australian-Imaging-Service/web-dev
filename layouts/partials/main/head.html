@@ -18,7 +18,7 @@
     }
 </script>
 {{ $styles := resources.Get "/css/style.css" | postCSS }}
-{{ $local_styles := resources.Get "/css/main/style.css" | postCSS }}
+{{ $local_styles := resources.Get "/css/main_page.css" | postCSS }}
 {{ if hugo.IsProduction }}
 <link rel="stylesheet" href="{{ $styles.RelPermalink }}" />
 <link rel="stylesheet" href="{{ $local_styles.RelPermalink }}" />
