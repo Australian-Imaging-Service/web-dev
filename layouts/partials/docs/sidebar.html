@@ -21,7 +21,11 @@
                   {{ if eq .Site.Params.docs.sidebarIcons true -}}
                       <i class="material-icons me-2">{{- .Params.icon | default "notes" }}</i>
                   {{ end }}
+                  {{ if .LinkTitle }}
+                  {{- .LinkTitle }}
+                  {{ else }}
                   {{- .Title }}
+                  {{ end }}
               </button>
               <div class="sidebar-submenu {{ if $active }}d-block{{ end }}">
                 <ul>
@@ -49,7 +53,11 @@
                                     {{ if eq .Site.Params.docs.sidebarIcons true -}}
                                         <!-- <span class="material-icons me-2">{{- .Params.icon }}</span> -->
                                     {{ end }}
+                                    {{ if .LinkTitle }}
+                                    {{- .LinkTitle }}
+                                    {{ else }}
                                     {{- .Title }}
+                                    {{ end }}
                                   </button>
                                   <div class="sidebar-submenu {{ if $active }}d-block{{ end }}">
                                     <ul>
@@ -61,33 +69,69 @@
                                               {{ if eq .Site.Params.docs.sidebarIcons true -}}
                                                   <!-- <span class="material-icons me-2">{{- .Params.icon }}</span> -->
                                               {{ end }}
+                                              {{ if .LinkTitle }}
+                                              {{- .LinkTitle }}
+                                              {{ else }}
                                               {{- .Title }}
+                                              {{ end }}
                                             </button>
                                             <div class="sidebar-submenu {{ if $active }}d-block{{ end }}">
                                               <ul>
                                                 {{ range .Pages }}
                                                   {{ $active := in $currentPage.RelPermalink .RelPermalink }}
-                                                  <li class="{{ if $active }}current{{ end }} {{ if eq .Site.Params.docs.sidebarIcons true -}}{{ else }}no-icon{{ end }}"><a class="sidebar-nested-link" href="{{ .Permalink }}">{{ .Title }}</a></li>
+                                                  <li class="{{ if $active }}current{{ end }} {{ if eq .Site.Params.docs.sidebarIcons true -}}{{ else }}no-icon{{ end }}">
+                                                    <a class="sidebar-nested-link" href="{{ .Permalink }}">
+                                                      {{ if .LinkTitle }}
+                                                      {{- .LinkTitle }}
+                                                      {{ else }}
+                                                      {{- .Title }}
+                                                      {{ end }}
+                                                    </a>
+                                                  </li>
                                                 {{ end }}
                                               </ul>
                                             </div>
                                           </li>
                                         {{ else }}
-                                          <li class="{{ if $active }}current{{ end }} {{ if eq .Site.Params.docs.sidebarIcons true -}}{{ else }}no-icon{{ end }}"><a class="sidebar-nested-link" href="{{ .Permalink }}">{{ .Title }}</a></li>
+                                          <li class="{{ if $active }}current{{ end }} {{ if eq .Site.Params.docs.sidebarIcons true -}}{{ else }}no-icon{{ end }}">
+                                            <a class="sidebar-nested-link" href="{{ .Permalink }}">
+                                              {{ if .LinkTitle }}
+                                              {{- .LinkTitle }}
+                                              {{ else }}
+                                              {{- .Title }}
+                                              {{ end }}
+                                            </a>
+                                          </li>
                                         {{ end }}
                                       {{ end }}
                                     </ul>
                                   </div>
                                 </li>
                               {{ else }}
-                                <li class="{{ if $active }}current{{ end }} {{ if eq .Site.Params.docs.sidebarIcons true -}}{{ else }}no-icon{{ end }}"><a class="sidebar-nested-link" href="{{ .Permalink }}">{{ .Title }}</a></li>
+                                <li class="{{ if $active }}current{{ end }} {{ if eq .Site.Params.docs.sidebarIcons true -}}{{ else }}no-icon{{ end }}">
+                                  <a class="sidebar-nested-link" href="{{ .Permalink }}">
+                                    {{ if .LinkTitle }}
+                                    {{- .LinkTitle }}
+                                    {{ else }}
+                                    {{- .Title }}
+                                    {{ end }}
+                                  </a>
+                                </li>
                               {{ end }}
                             {{ end }}
                           </ul>
                         </div>
                       </li>
                     {{ else }}
-                      <li class="{{ if $active }}current{{ end }} {{ if eq .Site.Params.docs.sidebarIcons true -}}{{ else }}no-icon{{ end }}"><a class="sidebar-nested-link" href="{{ .Permalink }}">{{ .Title }}</a></li>
+                      <li class="{{ if $active }}current{{ end }} {{ if eq .Site.Params.docs.sidebarIcons true -}}{{ else }}no-icon{{ end }}">
+                        <a class="sidebar-nested-link" href="{{ .Permalink }}">
+                          {{ if .LinkTitle }}
+                          {{- .LinkTitle }}
+                          {{ else }}
+                          {{- .Title }}
+                          {{ end }}
+                        </a>
+                      </li>
                     {{ end }}
                   {{ end }}
                 </ul>
@@ -100,7 +144,11 @@
                 {{ if eq .Site.Params.docs.sidebarIcons true -}}
                   <i class="material-icons me-2">{{ .Params.icon }}</i>
                 {{ end }}
-                {{ .Title }}
+                {{ if .LinkTitle }}
+                {{- .LinkTitle }}
+                {{ else }}
+                {{- .Title }}
+                {{ end }}
               </a>
             </li>
           {{ end }}
