@@ -304,7 +304,7 @@ menu:
       url: 'support/find_nodes'
       parent: support
     - name: 'Contact Us'
-      url: 'support/federation'
+      url: 'support/contact_us'
       parent: support
 
 markup:

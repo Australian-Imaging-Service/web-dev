@@ -6,7 +6,7 @@
   <div class="max-w-md px-4 py-12 mx-auto overflow-hidden sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8">
     <div class="grid gap-4 mx-auto mt-12 mb-8 lg:max-w-none md:grid-cols-6">
       <div class="flex flex-col col-span-2 gap-4">
-        {{ $logo := resources.GetMatch "images/main/logo.png" }}
+        {{ $logo := resources.GetMatch "images/main/logo.svg" }}
         <img src={{ $logo.RelPermalink }} class="transition-opacity h-9 w-9 group-hover:opacity-50 group-focus:opacity-70" alt="{{ .Site.Title }} Logo" />
         <p class="text-white">Your trustworthy Imaging partner for Research Excellence.</p>
         <div class="flex flex-row gap-4">
