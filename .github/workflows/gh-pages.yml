@@ -57,9 +57,9 @@ jobs:
       - name: Install python dependencies
         run: pip install toml
 
-      - name: Collect git modification info
+      #- name: Collect git modification info
         #run: python annotate.py
-        working-directory: ./docs_root
+        #working-directory: ./docs_root
 
       - name: Build
         working-directory: ./docs_root
