@@ -58,7 +58,7 @@ jobs:
         run: pip install toml
 
       - name: Collect git modification info
-        run: python annotate.py
+        #run: python annotate.py
         working-directory: ./docs_root
 
       - name: Build
