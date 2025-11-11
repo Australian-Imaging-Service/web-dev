@@ -5,7 +5,7 @@
 <footer class="bg-gray-900">
   <div class="max-w-md px-4 py-12 mx-auto overflow-hidden sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8">
     <div class="grid gap-4 mx-auto mt-12 mb-8 lg:max-w-none md:grid-cols-6">
-      <div class="flex flex-col col-span-2 gap-4">
+      <div class="flex flex-col col-span-6 md:col-span-2 gap-4">
         {{ $logo := resources.GetMatch "images/main/logo.svg" }}
         <img src={{ $logo.RelPermalink }} class="transition-opacity h-9 w-9 group-hover:opacity-50 group-focus:opacity-70" alt="{{ .Site.Title }} Logo" />
         <p class="text-white">Your trustworthy Imaging partner for Research Excellence.</p>
@@ -51,7 +51,7 @@
           {{ end }}
         </div>
       </div>
-      <nav class="flex flex-row gap-8 col-span-3-7 justify-end -mx-5 -my-2" aria-label="Footer">
+      <nav class="flex flex-row lg:gap-8 col-span-6 md:col-span-3-7 justify-end -mx-5 -my-2" aria-label="Footer">
         {{ range site.Menus.footer }}
         <div class="px-5 py-2">
           <div class="py-2">
@@ -68,10 +68,10 @@
     </div>
     <hr>
     <div class="grid grid-cols-2">
-      <span class="flex flex-row mt-4 text-base text-gray-400">&copy; {{ now.Format "2006" }}
+      <span class="flex flex-row mt-4 text-base text-gray-400 col-span-2 md:col-span-1">&copy; {{ now.Format "2006" }}
         {{ .Site.Title }}. All rights reserved.
       </span>
-      <div class="flex flex-row mt-4 justify-end">
+      <div class="flex flex-row mt-4 justify-end col-span-2 md:col-span-1">
         <a href="/" class="text-sm px-8 text-primary-400">Privacy & Policy</a>
         <a href="/" class="text-sm px-8 text-primary-400">Terms & Conditions</a>        
       </div>
