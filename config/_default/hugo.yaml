@@ -158,12 +158,6 @@ params:
           description: 'Linked data repositories with a shared library of containerized pipelines and analysis tools deployed on Kubernetes.'
         - title: 'Data Portal'
           description: 'Open frontend for findable metadata (opt-in).'
-    section2:
-      image: 'images/main/pages/compliance.png'
-      heading: 'Compliance'
-      content:
-        - 'Commodo diam vulputate dui proin quis enim nibh. Non integer ac libero facilisis hendrerit a at. Nisi sem ut sed sed faucibus at eu elit.'
-        - 'Start your compliance docs'
     funded_by:
       - title: 'Australian Research Data Commons'
         featured_image: 'images/main/partner_logos/ARDC.svg'
