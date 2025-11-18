@@ -147,6 +147,33 @@ params:
       enabled: true
       url: 'https://twitter.com/'
 
+  about:
+    section1:
+      image: 'images/main/pages/federation.png'
+      title: 'Federated model'
+      description:
+        - title: 'Edge Devices'
+          description: 'Upload & process data from clinical sites and imaging facilities.'
+        - title: 'Nodes'
+          description: 'Linked data repositories with a shared library of containerized pipelines and analysis tools deployed on Kubernetes.'
+        - title: 'Data Portal'
+          description: 'Open frontend for findable metadata (opt-in).'
+    section2:
+      image: 'images/main/pages/compliance.png'
+      heading: 'Compliance'
+      content:
+        - 'Commodo diam vulputate dui proin quis enim nibh. Non integer ac libero facilisis hendrerit a at. Nisi sem ut sed sed faucibus at eu elit.'
+        - 'Start your compliance docs'
+    funded_by:
+      - title: 'Australian Research Data Commons'
+        featured_image: 'images/main/partner_logos/ARDC.svg'
+      - title: 'National Imaging Facility'
+        featured_image: 'images/main/partner_logos/nif_rgb.svg'
+      - title: 'Funded by the European Union'
+        featured_image: 'images/main/partner_logos/FundedbytheEU.svg'
+      - title: 'Medical Research Future Fund'
+        featured_image: 'images/main/partner_logos/mrff.svg'
+
   google_fonts: [
     ["Inter", "300, 400, 600, 700"],
     ["Fira Code", "500, 700"]

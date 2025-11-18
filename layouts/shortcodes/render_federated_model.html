@@ -1,0 +1,35 @@
+<div class="relative my-4">
+  <div class="lg:mx-auto lg:grid lg:max-w-7xl lg:grid-cols-2 lg:items-start lg:gap-24 lg:px-8">
+    <div class="relative sm:py-8 lg:py-0">
+      <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50 sm:text-4xl pt-8">
+        {{ .Site.Params.about.section1.Title }}
+      </h2>
+      <div class="relative w-full h-auto px-4 py-6 mx-auto sm:max-w-3xl sm:px-6 lg:px-0 lg:py-20">
+        <div class="p-6 overflow-hidden shadow-xl rounded-2xl rad-gradient">
+          {{ $p1image := resources.Get .Site.Params.about.section1.Image }}
+          {{ with $p1image }}
+          {{ with .Resize (printf "%dx%d webp q90" .Width .Height) }}
+          <img imgh src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" class="w-full h-auto" alt="P1" loading="lazy" />
+          {{ end }}
+          {{ end }}
+        </div>
+      </div>
+    </div>
+    <div class="relative max-w-md px-4 mx-auto sm:max-w-3xl sm:px-6 lg:px-0">
+      <div class="md:pt-12 sm:pt-6 lg:pt-20">
+        <div class="mt-6 text-gray-900 dark:text-white">
+          <div class="mt-6 space-y-6 text-gray-900 dark:text-white">
+            {{ range .Site.Params.about.section1.Description }}
+            <p class="block border-left-green px-4  mt-2 text-2xl font-black text-gray-900 dark:text-gray-200 hover:text-primary-600 dark:hover:text-primary-500 hover:underline">
+              {{ .title }}
+            </p>
+            <p class="mt-3 text-base text-gray-900 dark:text-gray-300">
+              {{ .description }}
+            </p>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

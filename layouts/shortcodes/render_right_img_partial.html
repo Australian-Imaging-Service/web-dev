@@ -1,0 +1,33 @@
+<div class="overflow-hidden sm:pt-6 lg:relative rad-gradient">
+  <div class="px-4 mx-auto max-w-md sm:max-w-3xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-12 lg:px-8 py-12">
+    <div>
+      <div class="md:mt-8">
+        <div class="mt-6 sm:max-w-xl">
+          <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl md:mt-16">
+            {{ .Get "heading"}}
+          </h2>
+          <p class="pb-12 mt-6 text-lg text-gray-900 dark:text-white">
+            {{ .Get "content" }}
+          </p>
+          {{if .Get "button"}}
+          <div class="flex pt-6 font-medium text-md">
+            <a href="/" class="font-green">{{ .Get "button" | safeHTML }}</a>
+          </div>
+          {{end}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sm:mx-auto sm:max-w-3xl sm:px-6">
+    <div class="md:py-12 sm:relative lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
+      <div class="relative pl-4 -mr-40 sm:mx-auto sm:max-w-3xl sm:px-0 lg:h-full lg:max-w-none lg:pl-12">
+        {{ $p2image := resources.Get (.Get "img_path") }}
+        {{ with $p2image }}
+        {{ with .Resize (printf "%dx%d webp q90" .Width .Height) }}
+        <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" alt="p2" class="w-full h-auto" loading="lazy" />
+        {{ end }}
+        {{ end }}
+      </div>
+    </div>
+  </div>
+</div>

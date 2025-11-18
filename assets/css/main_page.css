@@ -101,8 +101,8 @@ button {
     grid-column: 3 / 7;
   }
 
-  .md\:grid-cols-5 {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+  .md\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .md\:grid-cols-6 {
@@ -123,4 +123,8 @@ button {
   .lg\:gap-8 {
     gap: 2rem;
   }
+}
+
+.rad-gradient {
+  background: radial-gradient(101.54% 60.98% at 50% 39.02%, #070B0E 0%, #0E1A3E 100%);
 }
