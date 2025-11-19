@@ -61,6 +61,14 @@ jobs:
         #run: python annotate.py
         #working-directory: ./docs_root
 
+      - name: Check for duplicate keys (imports and markup)
+        run: |
+          echo "Scanning for duplicate keys..."
+          grep -R "imports:" config/ || echo "No imports duplicates found"
+          grep -R "markup:" config/ || echo "No markup duplicates found"
+          grep -R "imports:" themes/ || echo "No imports duplicates found in themes"
+          grep -R "markup:" themes/ || echo "No markup duplicates found in themes"
+
       - name: Build
         working-directory: ./docs_root
         run: hugo --minify
