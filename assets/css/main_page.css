@@ -123,6 +123,23 @@ button {
   .lg\:gap-8 {
     gap: 2rem;
   }
+
+  .lg\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .lg\:col-span-2 {
+    grid-column: span 2 / span 2;
+  }
+
+  .lg\:col-span-1 {
+    grid-column: span 1 / span 1;
+  }
+
+  .lg\:px-20 {
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
 }
 
 .rad-gradient {
@@ -131,4 +148,8 @@ button {
 
 .dark\:rad-gradient:is(.dark *) {
   background: radial-gradient(101.54% 60.98% at 50% 39.02%, #070B0E 0%, #0E1A3E 100%);
+}
+
+.justify-center {
+  justify-content: center;
 }

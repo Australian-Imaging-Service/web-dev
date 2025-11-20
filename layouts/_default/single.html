@@ -3,20 +3,28 @@
   <div class="bg-gray-200 dark:bg-gray-900">
     <div class="max-w-screen-xl px-4 mx-auto">
       <div class="grid items-center gap-8 sm:mb-0 lg:gap-12 lg:grid-cols-2 main-bg dark:bg-size-unset">
-        <div class="col-span-6 mt-12 px-4 text-center sm:mb-6 lg:mb-0 dark:bg-gradient">
-          <h1 class="mb-2 text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-6xl text-gray-900 dark:text-white">
+        <div class="col-span-6 mt-12 px-4 py-6 text-center sm:mb-6 lg:mb-0 dark:bg-gradient">
+          <p class="max-w-xl mx-auto mb-6 font-normal xl:mb-2 md:text-lg xl:text-xl text-gray-900 dark:text-white">
+            {{ .Params.Header }}
+          </p>
+          <h1 class="mb-2 mt-12 text-4xl font-extrabold leading-none tracking-tight md:text-5xl xl:text-6xl text-gray-900 dark:text-white">
             {{ .Title }}
           </h1>
-          <p class="max-w-xl mx-auto mb-6 font-normal xl:mb-2 md:text-lg xl:text-xl text-gray-900 dark:text-white">
+          <p class="max-w-xl mx-auto mb-6 font-normal xl:mb-2 mt-12 md:text-lg xl:text-xl text-gray-900 dark:text-white">
             {{ .Description }}
           </p>
-          {{ if .Params.Signature}}
+          {{ if .Params.Signature }}
           <p class="max-w-xl mx-auto mb-6 font-normal xl:mb-2 mt-12 md:text-lg xl:text-xl text-gray-900 dark:text-white text-left">
             {{ .Params.Signature }}
           </p>
           <p class="max-w-xl mx-auto mb-6 font-normal xl:mb-2 text-gray-900 dark:text-white text-left">
             {{ .Params.Designation }}
           </p>
+          {{end}}
+          {{ if .Params.buttonText }}
+          <button type="submit" class="px-5 py-3 mt-12 text-base font-medium text-white bg-indigo-500 border border-transparent rounded-full shadow focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-500 sm:px-10">
+              {{ .Params.buttonText | safeHTML }}
+          </button>
           {{end}}
         </div>
       </div>

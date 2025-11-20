@@ -1,0 +1,16 @@
+<div class="relative px-1 pt-8 pb-4 bg-transparent lg:px-20 lg:pt-12 lg:mb-4 md:mt-12">
+  <div class="relative px-2 mx-auto max-w-7xl">
+    <div class="text-center">
+      <p class="text-3xl font-black tracking-tight text-primary-500 dark:text-primary-300 sm:text-4xl">
+        {{ .Get "title" | safeHTML}}
+      </p>
+      <p class="mx-auto mt-3 text-xl text-gray-500 dark:text-gray-300 sm:mt-4">
+        {{ .Get "description" }}
+      </p>
+      {{if .Get "link_text"}}
+      <div class="flex pt-6 font-medium text-md justify-center">
+        <a href="/" class="font-green">{{ .Get "link_text" | safeHTML }}</a>
+      </div>
+      {{end}}
+    </div>
+</div>

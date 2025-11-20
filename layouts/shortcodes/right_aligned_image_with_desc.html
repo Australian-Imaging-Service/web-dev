@@ -24,7 +24,7 @@
         {{ $p2image := resources.Get (.Get "img_path") }}
         {{ with $p2image }}
         {{ with .Resize (printf "%dx%d webp q90" .Width .Height) }}
-        <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" alt="p2" class="w-full h-auto" loading="lazy" />
+        <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" alt="p2" class="w-full h-full" loading="lazy" />
         {{ end }}
         {{ end }}
       </div>
