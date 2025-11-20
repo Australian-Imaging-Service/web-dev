@@ -9,6 +9,7 @@ module:
   hugoVersion:
     extended: true
     min: "0.114.0"
+  replacements: "github.com/colinwilson/lotusdocs -> lotusdocs"
   imports:
     - path: tailbliss
       mounts:
@@ -21,13 +22,10 @@ module:
           #excludeFiles: images/* # uncomment for production
         - source: content # comment for production
           target: content # comment for production
-  replacements: "github.com/colinwilson/lotusdocs -> lotusdocs"
-  imports:
-    path: "github.com/colinwilson/lotusdocs"
-    disable: false
-  imports:
-    path: "github.com/gohugoio/hugo-mod-bootstrap-scss/v5"
-    disable: false
+    - path: "github.com/colinwilson/lotusdocs"
+      disable: false
+    - path: "github.com/gohugoio/hugo-mod-bootstrap-scss/v5"
+      disable: false
 
 markup:
   tableOfContents:
@@ -247,6 +245,10 @@ menu:
       name: Support
       url: /support/
       weight: 30
+    - identifier: news
+      name: News
+      url: /news/
+      weight: 20
   categories:
     - identifier: prose
       name: Prose
@@ -328,10 +330,10 @@ menu:
       url: 'support/contact_us'
       parent: support
 
-markup:
-  goldmark:
-    renderer:
-      unsafe: true
+#markup:
+#  goldmark:
+#    renderer:
+#      unsafe: true
 
 taxonomies:
   category: Categories
