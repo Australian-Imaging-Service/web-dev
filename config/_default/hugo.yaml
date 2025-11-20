@@ -22,10 +22,12 @@ module:
           #excludeFiles: images/* # uncomment for production
         - source: content # comment for production
           target: content # comment for production
-    - path: "github.com/colinwilson/lotusdocs"
-      disable: false
-    - path: "github.com/gohugoio/hugo-mod-bootstrap-scss/v5"
-      disable: false
+  imports:
+    path: "github.com/colinwilson/lotusdocs"
+    disable: false
+  imports:
+    path: "github.com/gohugoio/hugo-mod-bootstrap-scss/v5"
+    disable: false
 
 markup:
   tableOfContents:
