@@ -4,8 +4,6 @@
             <a href='{{ .Site.BaseURL }}' class="flex text-gray-100 transition duration-1000 ease-in-out group">
                 {{ $logo := resources.GetMatch "images/main/logo.svg" }}
                 <img src={{ $logo.RelPermalink }} class="transition-opacity h-9 w-9 group-hover:opacity-50 group-focus:opacity-70" alt="{{ .Site.Title }} Logo" />
-                <div class="mt-1 ml-3 text-xl font-black tracking-tight text-gray-100 uppercase transition-colors group-hover:text-gray-400/60">
-                    {{ .Site.Title }}</div>
             </a>
             <button class="rounded-lg md:hidden focus:outline-none focus:shadow-outline" @click="open = !open" role="navigation" aria-expanded="false" aria-label="Main" aria-controls="menuItems">
                 <svg fill="currentColor" viewBox="0 0 20 20" class="w-6 h-6">

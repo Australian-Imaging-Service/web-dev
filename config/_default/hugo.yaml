@@ -234,7 +234,7 @@ menu:
     - identifier: features
       name: Features
       url: /prose/
-      weight: 10
+      weight: 20
     - identifier: docs
       name: Docs
       url: /docs/
@@ -242,15 +242,15 @@ menu:
     - identifier: about
       name: About
       url: /about/
-      weight: 20
+      weight: 30
     - identifier: support
       name: Support
       url: /support/
-      weight: 30
-    - identifier: news
-      name: News
-      url: /news/
-      weight: 20
+      weight: 40
+    # - identifier: news
+    #   name: News
+    #   url: /news/
+    #   weight: 20
   categories:
     - identifier: prose
       name: Prose
