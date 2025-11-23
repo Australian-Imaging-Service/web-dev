@@ -1,5 +1,5 @@
 ---
-weight: 20
+weight: 3
 title: "Project Setup"
 description: "Project setup section"
 icon: "edit"
