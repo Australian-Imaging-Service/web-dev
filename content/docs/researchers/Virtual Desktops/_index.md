@@ -1,5 +1,5 @@
 ---
-weight: 20
+weight: 7
 title: "Virtual Desktops"
 description: "Virtual desktop section"
 icon: "edit"
