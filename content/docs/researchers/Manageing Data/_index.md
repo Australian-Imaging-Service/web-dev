@@ -1,5 +1,5 @@
 ---
-weight: 20
+weight: 5
 title: "Managing Data"
 description: "Managing data section"
 icon: "edit"
