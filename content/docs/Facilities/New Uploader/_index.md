@@ -1,5 +1,5 @@
 ---
-weight: 20
+weight: 1
 title: "New Uploader"
 description: "New Uploader section"
 icon: "edit"
