@@ -1,5 +1,5 @@
 ---
-weight: 20
+weight: 1
 title: "XNAT Config"
 description: "XNAT config section"
 icon: "edit"
