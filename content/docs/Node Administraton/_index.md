@@ -1,5 +1,5 @@
 ---
-weight: 20
+weight: 3
 title: "Node Administration"
 description: "Node Administration section"
 icon: "edit"
