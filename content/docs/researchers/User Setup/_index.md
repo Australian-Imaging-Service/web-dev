@@ -1,5 +1,5 @@
 ---
-weight: 20
+weight: 2
 title: "User Setup"
 description: "User setup section"
 icon: "edit"
