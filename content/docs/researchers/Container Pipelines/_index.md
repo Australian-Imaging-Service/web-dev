@@ -1,5 +1,5 @@
 ---
-weight: 20
+weight: 6
 title: "Container Pipelines"
 description: "Container pipelines section"
 icon: "edit"
