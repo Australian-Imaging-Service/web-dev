@@ -1,5 +1,5 @@
 ---
-weight: 20
+weight: 8
 title: "External Systems"
 description: "External systems section"
 icon: "edit"
