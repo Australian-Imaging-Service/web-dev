@@ -1,5 +1,5 @@
 ---
-weight: 20
+weight: 2
 title: "Clinical Trials Process (CTP)"
 description: "Clinical Trails Process section"
 icon: "edit"
