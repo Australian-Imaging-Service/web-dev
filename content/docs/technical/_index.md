@@ -2,7 +2,7 @@
 title: Technical Documentation
 linkTitle: Technical Documentation
 description: 'This section contains technical and infrastructure documentation'
-weight: 20
+weight: 4
 draft: false
 toc: true
 ---
