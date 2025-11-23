@@ -1,5 +1,5 @@
 ---
-weight: 20
+weight: 2
 title: "XNAT Admin Roles"
 description: "XNAT Admin Roles section"
 icon: "edit"
