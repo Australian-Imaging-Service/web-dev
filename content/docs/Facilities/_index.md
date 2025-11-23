@@ -2,7 +2,7 @@
 ---
 title: "Facilities"
 linkTitle: "Facilities"
-weight: 20
+weight: 2
 ---
 Welcome to the Facilities section.
 
