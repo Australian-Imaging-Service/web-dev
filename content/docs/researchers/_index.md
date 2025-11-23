@@ -1,6 +1,6 @@
 ---
 weight: 20
-title: "For Researchers"
+title: "Researchers"
 description: "Researchers section"
 icon: "edit"
 date: "2025-11-23T00:34:57+01:00"
