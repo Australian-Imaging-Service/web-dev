@@ -1,5 +1,5 @@
 ---
-weight: 20
+weight: 1
 title: "Researchers"
 description: "Researchers section"
 icon: "edit"
