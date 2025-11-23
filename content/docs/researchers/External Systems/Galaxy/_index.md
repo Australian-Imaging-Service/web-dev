@@ -1,5 +1,5 @@
 ---
-weight: 20
+weight: 3
 title: "Galaxy"
 description: "Galaxy section"
 icon: "edit"
