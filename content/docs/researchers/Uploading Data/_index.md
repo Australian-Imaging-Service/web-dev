@@ -1,5 +1,5 @@
 ---
-weight: 20
+weight: 4
 title: "Uploading Data"
 description: "Uploading data section"
 icon: "edit"
