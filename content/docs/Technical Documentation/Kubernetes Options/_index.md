@@ -1,5 +1,5 @@
 ---
-weight: 1
+weight: 3
 title: "Kubernetes Options"
 description: "Kubernetes options section"
 icon: "edit"
