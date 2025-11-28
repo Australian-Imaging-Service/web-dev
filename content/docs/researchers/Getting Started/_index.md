@@ -9,9 +9,9 @@ draft: false
 toc: true
 ---
 
-# Getting Started - UQ AIS XNAT
+# Getting Started - USyd AIS XNAT
 
-UQ AIS XNAT  
+USyd AIS XNAT  
 Link to XNAT Support Ticket  
 Documentation  
 
@@ -22,10 +22,10 @@ Documentation
 
 ## Getting Started
 
-### Signing up and getting started with UQ-RCC XNAT
+### Signing up and getting started with USyd XNAT
 
-#### UQ members
-For UQ Staff and Students
+#### USyd members
+For USyd Staff and Students
 
 #### Other AAF members
 Other AAF members
@@ -38,6 +38,6 @@ For users acquiring data at HIRF
 
 ---
 
-© 2025 UQ Research Computing Centre (RCC) & Australian National Imaging Facility (ANIF)
+© 2025 USyd Australian Imaging Service (AIS) & Australian National Imaging Facility (ANIF)
 
 
