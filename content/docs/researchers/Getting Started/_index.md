@@ -1,7 +1,7 @@
 ---
 weight: 1
 title: "Getting Started"
-description: "Getting started - USyd AIS XNAT"
+description: "Signing up and getting started with USyd XNAT"
 icon: "edit"
 date: "2025-11-23T00:34:57+01:00"
 lastmod: "2025-11-23T00:34:57+01:00"
@@ -10,10 +10,6 @@ toc: true
 ---
 
 ---
-
-## Getting Started
-
-### Signing up and getting started with USyd XNAT
 
 #### USyd members
 For USyd Staff and Students
