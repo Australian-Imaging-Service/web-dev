@@ -25,6 +25,5 @@ For users acquiring data at HIRF
 
 ---
 
-© 2025 USyd Australian Imaging Service (AIS) & Australian National Imaging Facility (ANIF)
 
 
