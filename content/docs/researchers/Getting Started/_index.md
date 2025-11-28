@@ -1,22 +1,13 @@
 ---
 weight: 1
 title: "Getting Started"
-description: "Getting started section"
+description: "Getting started - USyd AIS XNAT"
 icon: "edit"
 date: "2025-11-23T00:34:57+01:00"
 lastmod: "2025-11-23T00:34:57+01:00"
 draft: false
 toc: true
 ---
-
-# Getting Started - USyd AIS XNAT
-
-USyd AIS XNAT  
-Link to XNAT Support Ticket  
-Documentation  
-
-## User Guides
-- Getting Started
 
 ---
 
