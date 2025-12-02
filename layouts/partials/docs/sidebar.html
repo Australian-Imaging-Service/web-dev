@@ -17,7 +17,7 @@
           {{ if or (.Sections) (.Pages) }}
           {{ $active := in $currentPage.RelPermalink .RelPermalink }}
             <li class="sidebar-dropdown {{ if eq .Site.Params.docs.sidebarIcons true -}}{{ else }}no-icon{{ end }} {{ if $active }}current active{{ end }}">
-              <button class="btn">
+              <a class="sidebar-root-link" href="{{ .Permalink }}">
                   {{ if eq .Site.Params.docs.sidebarIcons true -}}
                       <i class="material-icons me-2">{{- .Params.icon | default "notes" }}</i>
                   {{ end }}
@@ -26,7 +26,7 @@
                   {{ else }}
                   {{- .Title }}
                   {{ end }}
-              </button>
+              </a>
               <div class="sidebar-submenu {{ if $active }}d-block{{ end }}">
                 <ul>
                   {{ range .Pages }}
