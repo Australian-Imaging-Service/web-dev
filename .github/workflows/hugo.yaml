@@ -1,4 +1,3 @@
-# Sample workflow for building and deploying a Hugo site to GitHub Pages
 name: Deploy Hugo site to Pages
 
 on:
@@ -70,6 +69,13 @@ jobs:
             hugo-
       - name: Configure Git
         run: git config core.quotepath false
+      - name: ISSUE run patches
+        run: |
+          shopt -s nullglob
+          for p in patches/*.patch; do
+            patch < "$p"
+          done
+          shopt -u nullglob
       - name: Build with Hugo
         run: |
           hugo \

@@ -9,25 +9,14 @@ module:
   hugoVersion:
     extended: true
     min: "0.114.0"
-  replacements: "github.com/colinwilson/lotusdocs -> lotusdocs"
   imports:
-    - path: tailbliss
+    - path: "github.com/gohugoio/hugo-mod-bootstrap-scss/v5"
+      disable: false
+    - path: "github.com/Australian-Imaging-Service/charts"
+      disabled: false
       mounts:
-        - source: i18n
-          target: i18n
-        - source: archetypes
-          target: archetypes
-        - source: assets
-          target: assets
-          #excludeFiles: images/* # uncomment for production
-        - source: content # comment for production
-          target: content # comment for production
-  imports:
-    path: "github.com/colinwilson/lotusdocs"
-    disable: false
-  imports:
-    path: "github.com/gohugoio/hugo-mod-bootstrap-scss/v5"
-    disable: false
+        - source: docs/Deployment
+          target: "content/docs/Technical Documentation/AIS Node/XNAT"
 
 markup:
   tableOfContents:

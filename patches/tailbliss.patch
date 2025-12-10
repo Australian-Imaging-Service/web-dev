@@ -1,0 +1,14 @@
+--- themes/tailbliss/hugo.yaml-orig	2025-12-10 11:58:59
++++ themes/tailbliss/hugo.yaml	2025-12-10 11:59:26
+@@ -183,11 +183,6 @@
+       url: /contact/
+       weight: 50
+ 
+-markup:
+-  goldmark:
+-    renderer:
+-      unsafe: true
+-
+ taxonomies:
+   category: Categories
+   tag: Tags

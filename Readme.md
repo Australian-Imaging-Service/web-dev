@@ -1,1 +1,0 @@
-Hugo website with tailbliss and LotusDocs theme.
