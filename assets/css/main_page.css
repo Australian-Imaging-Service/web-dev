@@ -83,6 +83,19 @@ button {
   background-color: rgba(48, 90, 217, 1);
 }
 
+.bg-primary {
+  background-color: rgba(48, 90, 217, 1);
+}
+
+.blue-svg path {
+  fill: rgba(48, 90, 217, 1);
+}
+
+.button-border {
+  background-color: inherit;
+  border: 1px solid white;
+}
+
 .justify-end {
   justify-content: end;
 }
