@@ -53,6 +53,13 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
+      - name: ISSUE run patches
+        run: |
+          shopt -s nullglob
+          for p in patches/*.patch; do
+            patch < "$p" || true
+          done
+          shopt -u nullglob
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
@@ -69,13 +76,6 @@ jobs:
             hugo-
       - name: Configure Git
         run: git config core.quotepath false
-      - name: ISSUE run patches
-        run: |
-          shopt -s nullglob
-          for p in patches/*.patch; do
-            patch < "$p"
-          done
-          shopt -u nullglob
       - name: Build with Hugo
         run: |
           hugo \
