@@ -10,7 +10,10 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
     inputs:
-      hugo_update_mod: 'all'
+      hugo_update_mod:
+        description: 'Hugo module to refresh (optional)'
+        required: false
+        type: string
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -81,6 +84,7 @@ jobs:
       - name: Update Hugo cache to get modified content
         env:
           HUGO_CACHEDIR: "${{ runner.temp }}/hugo_cache"
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.hugo_update_mod != '' }}
         run: |
           if [ "${{ inputs.hugo_update_mod }}" == "all" ]; then
             hugo mod clean --all
