@@ -38,7 +38,6 @@ jobs:
       DART_SASS_VERSION: 1.89.2
       HUGO_VERSION: 0.148.0
       HUGO_ENVIRONMENT: production
-      HUGO_CACHEDIR: "${{ runner.temp }}/hugo_cache"
       TZ: Australia/Sydney
     steps:
       - name: Install Hugo CLI
@@ -80,6 +79,8 @@ jobs:
       - name: Configure Git
         run: git config core.quotepath false
       - name: Update Hugo cache to get modified content
+        env:
+          HUGO_CACHEDIR: "${{ runner.temp }}/hugo_cache"
         run: |
           if [ "${{ inputs.hugo_update_mod }}" == "all" ]; then
             hugo mod clean --all
@@ -87,6 +88,8 @@ jobs:
             hugo mod get -u ${{ inputs.hugo_update_mod }}
           fi
       - name: Build with Hugo
+        env:
+          HUGO_CACHEDIR: "${{ runner.temp }}/hugo_cache"
         run: |
           hugo \
             --gc \
