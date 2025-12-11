@@ -9,6 +9,8 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+    inputs:
+      hugo_update_mod: 'all'
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -36,6 +38,7 @@ jobs:
       DART_SASS_VERSION: 1.89.2
       HUGO_VERSION: 0.148.0
       HUGO_ENVIRONMENT: production
+      HUGO_CACHEDIR: "${{ runner.temp }}/hugo_cache"
       TZ: Australia/Sydney
     steps:
       - name: Install Hugo CLI
@@ -76,13 +79,19 @@ jobs:
             hugo-
       - name: Configure Git
         run: git config core.quotepath false
+      - name: Update Hugo cache to get modified content
+        run: |
+          if [ "${{ inputs.hugo_update_mod }}" == "all" ]; then
+            hugo mod clean --all
+          else
+            hugo mod get -u ${{ inputs.hugo_update_mod }}
+          fi
       - name: Build with Hugo
         run: |
           hugo \
             --gc \
             --minify \
-            --baseURL "${{ steps.pages.outputs.base_url }}/" \
-            --cacheDir "${{ runner.temp }}/hugo_cache"
+            --baseURL "${{ steps.pages.outputs.base_url }}/"
       - name: Cache Save
         id: cache-save
         uses: actions/cache/save@v4
