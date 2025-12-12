@@ -1,5 +1,11 @@
 github.com/Australian-Imaging-Service/charts v0.0.0-20250919121717-d2331eb65ce8 h1:JSA6zKF9blqYvyEIIGB4Wfg3FdhNZX0y7J55OvUlqCQ=
 github.com/Australian-Imaging-Service/charts v0.0.0-20250919121717-d2331eb65ce8/go.mod h1:UHR3U03cHEKJeViC9KpQUAwmEUFqSEsAJycJ0jTHndg=
+github.com/Australian-Imaging-Service/charts v0.0.0-20251211223746-7f3192d648e6 h1:gBz+vCgyHuqkJXkahsTIyU4Emd1IOqciD1BculHkcoY=
+github.com/Australian-Imaging-Service/charts v0.0.0-20251211223746-7f3192d648e6/go.mod h1:UHR3U03cHEKJeViC9KpQUAwmEUFqSEsAJycJ0jTHndg=
+github.com/Australian-Imaging-Service/pipelines v0.0.0-20250604080139-4703d820bc6b h1:gDtE8rX7AxDsGaXw2UJavZ6QyAjL7n4PU2/NEdMT5vU=
+github.com/Australian-Imaging-Service/pipelines v0.0.0-20250604080139-4703d820bc6b/go.mod h1:e37ELCilGOkqiZ5nBiJ0rw85iJJ3dkHZeBJ3bMbWFnw=
+github.com/Australian-Imaging-Service/pipelines v0.0.0-20251205042610-536220de6e69 h1:dSue/c3vXhWsJLU85qABbTlHM91j2FyV3SakHRTP6zE=
+github.com/Australian-Imaging-Service/pipelines v0.0.0-20251205042610-536220de6e69/go.mod h1:0fVoUaJnJMBeasDS164Bw5AhmeCm6Lc8WG7KtoHNf1o=
 github.com/gohugoio/hugo-mod-bootstrap-scss/v5 v5.20300.20400 h1:L6+F22i76xmeWWwrtijAhUbf3BiRLmpO5j34bgl1ggU=
 github.com/gohugoio/hugo-mod-bootstrap-scss/v5 v5.20300.20400/go.mod h1:uekq1D4ebeXgduLj8VIZy8TgfTjrLdSl6nPtVczso78=
 github.com/gohugoio/hugo-mod-jslibs-dist/popperjs/v2 v2.21100.20000 h1:GZxx4Hc+yb0/t3/rau1j8XlAxLE4CyXns2fqQbyqWfs=

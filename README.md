@@ -8,10 +8,10 @@ cd web-dev
 
 # Fix TailBliss theme yaml violation in its config file
 # themes/tailbliss/hugo.yaml
-patch < tailbliss.patch
+patch < patches/tailbliss.patch
 
 # Install dependancies
-hugo get mod
+hugo mod get
 npm install
 npm audit fix
 

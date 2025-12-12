@@ -17,6 +17,11 @@ module:
       mounts:
         - source: docs/Deployment
           target: "content/docs/Technical Documentation/AIS Node/XNAT"
+    - path: "github.com/Australian-Imaging-Service/pipelines"
+      disabled: false
+      mounts:
+        - source: docs
+          target: "content/docs/Technical Documentation/pipelines"
 
 markup:
   tableOfContents:
