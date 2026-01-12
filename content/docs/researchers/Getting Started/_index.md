@@ -1,13 +1,17 @@
+
 ---
-weight: 1
-title: "Getting Started"
-description: "Signing up and getting started with USyd XNAT"
-icon: "edit"
-date: "2025-11-23T00:34:57+01:00"
-lastmod: "2025-11-23T00:34:57+01:00"
-draft: false
-toc: true
+title = "Getting Started"
+linkTitle = "Overview"
+description = "Signing up and getting started with USyd XNAT"
+weight = 1
+
+# Put this page into the 'docs' menu (adjust the menu name if your site uses a different one)
+[menu.docs]
+identifier = "getting-started-overview"
+# If you want to nest under a higher-level item, set `parent` to that item’s identifier
+# parent = "researchers"
 ---
+
 
 ---
 
