@@ -1,7 +1,7 @@
 
 ---
 title: "Getting Started"
-linkTitle: "Overview"
+linkTitle: "Getting Started"
 description: "Signing up and getting started with USyd XNAT"
 weight: 1
 
