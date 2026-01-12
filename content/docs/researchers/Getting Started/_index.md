@@ -10,7 +10,7 @@ menu:
   docs:
     identifier: "getting-started-overview"
 # If you want to nest under a higher-level item, set `parent` to that item’s identifier
-# parent: "researchers"
+parent: "researchers"
 ---
 
 
