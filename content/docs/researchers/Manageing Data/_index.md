@@ -1,3 +1,4 @@
+<!--
 ---
 weight: 5
 title: "Managing Data"
@@ -8,4 +9,4 @@ lastmod: "2025-11-23T00:34:57+01:00"
 draft: false
 toc: true
 ---
-
+-->
