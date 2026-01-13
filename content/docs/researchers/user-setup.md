@@ -1,6 +1,6 @@
 ---
 title: "User Setup"
-weight: 60
+weight: 20
 ---
 
 # User Setup
