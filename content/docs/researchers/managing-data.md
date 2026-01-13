@@ -1,6 +1,6 @@
 ---
 title: "Managing data"
-weight: 30
+weight: 50
 ---
 
 # Managing data
