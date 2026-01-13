@@ -1,111 +1,86 @@
+
 ---
-weight: 1350
-title: "Alerts"
-icon: notification_important
-description: "How to use Alert Shortcodes to render custom page alerts in markdown."
-lead: "Alerts."
-date: 2022-11-22T13:42:31+00:00
-lastmod: 2022-11-22T13:42:31+00:00
+title: "Container Pipelines"
+description: "How researchers can run and manage analysis pipelines using the XNAT Container Service within AIS."
+# Order of this page within the Researchers section (lower = higher up)
+weight: 30
+
+# Render settings
 draft: false
+toc: true        # LotusDocs/Hugo: show Table of Contents on the right
+breadcrumbs: true
+
+# Optional visual hint (LotusDocs supports Bootstrap icons or Material Symbols if enabled)
+icon: "bi-terminal"
+
+# Taxonomy (optional)
+tags: ["researchers", "pipelines", "containers", "XNAT"]
+
+# Aliases help avoid 404s if links change
 aliases:
-    - ../guides/shortcodes/alerts
-images: []
-toc: true
+  - /docs/researchers/container-pipelines
+  - /researchers/container-pipelines/
+
+# Sidebar placement under a custom docs menu.
+# If your site uses a different menu name, change "docs" to match.
+menu:
+  docs:
+    parent: "Researchers"
+    name: "Container Pipelines"
+    weight: 30
 ---
 
-## Adding a Page Alert
+# Overview
 
-Page alerts can be added to your markdown using the following shortcode:
+The **Australian Imaging Service (AIS)** provides a curated library of **containerised analysis pipelines** that run against data stored in **XNAT** via the **XNAT Container Service**. This page walks researchers through how to discover, launch, monitor, and reproduce pipeline runs in a typical study workflow.
 
-```go
-{{</* alert text="This is the default alert. It consists of a default theme colour and icon." /*/>}}
-```
+> **Who’s this for?**  
+> Researchers who have access to an AIS node and want to run standardised, reproducible analyses on imaging data (e.g., MRIQC, fMRIPrep, BIDS apps, and AIS‑specific workflows).
 
-The above code results in the following alert:
+---
 
-{{< alert text="This is the default alert. It consists of a default theme colour and icon." />}}
+## Prerequisites
 
-## Alert with Context
+- An active **AIS** account and access to an **XNAT project**.
+- Required **roles/permissions** in XNAT (e.g., ability to create and manage container jobs).
+- Data organised according to the pipeline’s input expectations (e.g., BIDS for certain apps).
+- If your node enforces queue limits, ensure you have available **job quota**.
 
-Add context to an alert via the `context` parameter:
+---
 
-```go
-{{</* alert context="info" text="This is an alert with an <strong>info</strong> context. It consists of the info theme colour and icon." /*/>}}
-```
+## Finding Available Pipelines
 
-Here's what is rendered:
+1. Open your AIS **XNAT** project.
+2. Navigate to **Tools → Container Service → Commands**.  
+3. Use the search or filters (e.g., *BIDS*, *MRIQC*, *fMRIPrep*) to locate the pipeline.
+4. Click a command to view:
+   - Required input(s) (project/subject/session/scan or resource)
+   - Parameters with defaults
+   - Expected outputs and provenance
 
-{{< alert context="info" text="This is an alert with an <strong>info</strong> context. It consists of the info theme colour and icon." />}}
+> 💡 Tip  
+> Many commands provide a **dry‑run** or an **example JSON**. Save it for reuse to ensure consistent runs across datasets.
 
-Additional alert contexts include `success`, `danger`, `warning`, `primary`, `light` and `dark`:
+---
 
-{{< alert context="success" text="This is an alert with a <strong>success</strong> context. It consists of the success theme colour and icon." />}}
+## Launching a Pipeline (Typical Flow)
 
-{{< alert context="danger" text="This is an alert with a <strong>danger</strong> context. It consists of the danger theme colour and icon." />}}
+1. **Select the scope** (e.g., a single session, a set of scans, or an entire project).
+2. **Open the command** from Container Service and fill the parameters:
+   - Input selector (subject/session/scan)
+   - Image or workflow version
+   - Optional flags (e.g., `--participant-label`, `--nprocs`, `--mem`)
+3. **Choose output destination**:
+   - Project or subject resource
+   - A named output label (e.g., `derivatives/mriqc`)
+4. **Submit job** and confirm:
+   - You’ll see a job ID; the **Jobs** tab shows its progress.
+   - Logs stream under **Job details**; errors are highlighted.
 
-{{< alert context="warning" text="This is an alert with a <strong>warning</strong> context. It consists of the warning theme colour and icon." />}}
+---
 
-{{< alert context="primary" text="This is an alert with a <strong>primary</strong> context. Its theme and icon colors match those of the current primary theme colour." />}}
+## Monitoring & Logs
 
-{{< alert context="light" text="This is an alert with a <strong>light</strong> context. It consists of the light theme colour. The light alert has no default icon." />}}
-
-{{< alert context="dark" text="This is an alert with a <strong>dark</strong> context. It consists of the dark theme colour. The dark alert has no default icon." />}}
-
-## Alert with Custom Emoji Icon
-
-The default icon for an alert context can be substituted with an emoji using the `icon` parameter:
-
-```go
-{{</* alert icon="🍅" context="info" text="This is an <strong>info</strong> context alert with a tomato emoji replacing the default icon. The info theme colour remains unchanged." /*/>}}
-```
-
-{{< alert icon="🍅" context="info" text="This is an <strong>info</strong> context alert with a tomato emoji replacing the default icon. The info theme colour remains unchanged." />}}
-
-## Alert with No Icon
-
-Setting the `icon` parameter to an empty space, `icon=" "`, will render an alert with no icon:
-
-```go
-{{</* alert icon=" " context="info" text="This <strong>info</strong> context alert has no icon." /*/>}}
-```
-
-{{< alert icon=" " context="info" text="This <strong>info</strong> context alert has no icon." />}}
-
-{{% alert context="warning" %}}
-**N.B.** The icon parameter **must** contain a space. Setting it to `icon=""` will render the default icon.
-{{% /alert %}}
-
-## Render Markdown & HTML inside an Alert
-
-{{% alert context="warning" %}}
-So `%` delimited alerts render correctly, ensure you have `unsafe = true` set under `[markup.goldmark.renderer]` in your `hugo.toml` configuration file[^1].
-{{% /alert %}}
-
-Use a [paired shortcode](https://gohugo.io/content-management/shortcodes/) with the `%` delimiter[^2] to render Markdown and HTML inside an alert:
-
-```go
-{{%/* alert icon="🛒" context="success" %}}
-This ***paired shortcode*** alert contains a **markdown** list and header:
-
-#### My Shopping List:
-1. Tomatoes
-2. Bananas
-3. Pineapples
-
-and a sentence <em>styled</em> using <strong>HTML</strong> tags such as \<strong\> and \<em\>
-{{% /alert */%}}
-```
-
-{{% alert icon="🛒" context="success" %}}
-This ***paired shortcode*** alert contains a **markdown** list and header:
-
-#### My Shopping List:
-1. Tomatoes
-2. Bananas
-3. Pineapples
-
-and a sentence <em>styled</em> using <strong>HTML</strong> tags such as \<strong\> and \<em\>
-{{% /alert %}}
-
-[^1]: [Markdown alerts do not seem to display background color](https://github.com/colinwilson/lotusdocs/issues/49#issuecomment-1701170810)
-[^2]: [Shortcodes with Markdown - gohugo.io](https://gohugo.io/content-management/shortcodes/#shortcodes-with-markdown)
+- Open **Container Service → Jobs**:
+  - **Queued** → waiting on resources
+  - **Running** → container started; live logs available
