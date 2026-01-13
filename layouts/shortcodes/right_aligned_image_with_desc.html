@@ -3,9 +3,21 @@
     <div>
       <div class="md:mt-8">
         <div class="mt-6 sm:max-w-xl">
-          <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl md:mt-16">
-            {{ .Get "heading"}}
-          </h2>
+          {{if .Get "logo_path"}}
+            <div class="flex md:mt-16">
+              {{ with resources.Get (.Get "logo_path") }}
+              {{ $p2image := .RelPermalink }}
+              <img src="{{ $p2image }}" alt="p2" loading="lazy" />
+              {{ end }}
+              <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+                {{ .Get "heading"}}
+              </h2>
+            </div>
+          {{ else }}
+            <h2 class="text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-4xl md:mt-16">
+              {{ .Get "heading"}}
+            </h2>
+          {{ end }}
           <p class="pb-12 mt-6 text-lg text-gray-900 dark:text-white">
             {{ .Get "content" }}
           </p>
