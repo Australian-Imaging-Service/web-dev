@@ -1,6 +1,6 @@
 ---
 title: "Container pipelines"
-weight: 20
+weight: 60
 ---
 
 # Container pipelines
