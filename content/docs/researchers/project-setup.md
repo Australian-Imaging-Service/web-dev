@@ -1,6 +1,6 @@
 ---
 title: "Project Setup"
-weight: 40
+weight: 30
 ---
 
 # Project Setup
