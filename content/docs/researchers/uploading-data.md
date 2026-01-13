@@ -1,6 +1,6 @@
 ---
 title: "Uploading data"
-weight: 50
+weight: 40
 ---
 
 # Uploading data
