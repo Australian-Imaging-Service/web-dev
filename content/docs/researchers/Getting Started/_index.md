@@ -1,4 +1,4 @@
-
+<!--
 ---
 title: "Getting Started"
 linkTitle: "Getting Started"
@@ -28,3 +28,4 @@ Non-University, non-AAF members and other users
 #### HIRF users
 For users acquiring data at HIRF
 
+-->
