@@ -1,41 +1,59 @@
 
-name: Playwright Tests
+name: Playwright CI
 
 on:
   push:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+  workflow_dispatch:
 
 jobs:
-  test:
+  e2e:
     runs-on: ubuntu-latest
     timeout-minutes: 60
-
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [ chromium, firefox, webkit ]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: lts/*
 
-      - name: Install dependencies
+      - name: Cache npm (optional)
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
+
+      - name: Install deps
         run: npm ci
 
-      - name: Install Playwright browsers (with system deps)
+      - name: Install Playwright browsers
         run: npx playwright install --with-deps
-        # Official recommendation for CI installs. [1](https://playwright.dev/docs/ci-intro)[2](https://github.com/microsoft/playwright-github-action)
+        # Officially recommended CLI in CI; the GitHub Action is deprecated. [2](https://github.com/microsoft/playwright-github-action)
 
-      - name: Run Playwright tests
-        run: npx playwright test
+      - name: Run tests (${{ matrix.project }})
+        env:
+          # Optional: expose baseURL via secrets or environment
+          BASE_URL: https://australian-imaging-service.github.io/web-dev/
+        run: npx playwright test --project=${{ matrix.project }}
 
       - name: Upload HTML report
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
+          name: report-${{ matrix.project }}
           path: playwright-report/
-          retention-days: 30
-          # Playwright’s docs show uploading the HTML report artifact on CI. [1](https://playwright.dev/docs/ci-intro)
+
+      - name: Upload rich artifacts (videos/screenshots/traces)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifacts-${{ matrix.project }}
+          path: test-results/
