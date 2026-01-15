@@ -227,7 +227,7 @@ menu:
   main:
     - identifier: features
       name: Features
-      url: /prose/
+      url: /features/
       weight: 20
     - identifier: docs
       name: Docs
