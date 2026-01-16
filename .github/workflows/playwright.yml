@@ -1,59 +1,27 @@
-
-name: Playwright CI
-
+name: Playwright Tests
 on:
   push:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
-  workflow_dispatch:
-
 jobs:
-  e2e:
-    runs-on: ubuntu-latest
+  test:
     timeout-minutes: 60
-    strategy:
-      fail-fast: false
-      matrix:
-        project: [ chromium, firefox, webkit ]
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-
-      - name: Cache npm (optional)
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-
-
-      - name: Install deps
-        run: npm ci
-
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
-        # Officially recommended CLI in CI; the GitHub Action is deprecated. [2](https://github.com/microsoft/playwright-github-action)
-
-      - name: Run tests (${{ matrix.project }})
-        env:
-          # Optional: expose baseURL via secrets or environment
-          BASE_URL: https://australian-imaging-service.github.io/web-dev/
-        run: npx playwright test --project=${{ matrix.project }}
-
-      - name: Upload HTML report
-        if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: report-${{ matrix.project }}
-          path: playwright-report/
-
-      - name: Upload rich artifacts (videos/screenshots/traces)
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: artifacts-${{ matrix.project }}
-          path: test-results/
+    - uses: actions/checkout@v5
+    - uses: actions/setup-node@v5
+      with:
+        node-version: lts/*
+    - name: Install dependencies
+      run: npm ci
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+    - name: Run Playwright tests
+      run: npx playwright test
+    - uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: playwright-report
+        path: playwright-report/
+        retention-days: 30
