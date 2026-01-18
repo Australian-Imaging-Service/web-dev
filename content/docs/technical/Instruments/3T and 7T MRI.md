@@ -8,7 +8,7 @@ weight: 10
 
 The Project field should filled with the XNAT shortcode (EZBooking Project ID) and the Subject field will be filled with the project name.
 
-{{% alert title="Note" %}}
+{{/* % alert title="Note" % */}}
 For the new project created through DashR, the XNAT shortcode should be at least 3 digits/characters and less than 20 digits/characters. 
 
 If less than 3 digits, zeros should be added at the beginning. For example, XNAT shortcode 044 for EZBooking Project ID 44
