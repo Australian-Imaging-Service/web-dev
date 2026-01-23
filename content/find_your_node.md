@@ -7,6 +7,7 @@ description: "Till March 2023, Australian Imaging Service (AIS) proudly partnere
 title: 'Start today with your node.'
 params:
   nodes:
+    - 'images/main/partner_logos/AAF%20logo_text_white-01.svg' 
     - 'images/main/partner_logos/usyd.svg'    
     - 'images/main/partner_logos/mqu.svg'
     - 'images/main/partner_logos/monash.svg'
