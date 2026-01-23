@@ -14,6 +14,7 @@ params:
     - 'images/main/partner_logos/nif.svg'
     - 'images/main/partner_logos/PeterMac_logo_rgb_white.svg'
     - 'images/main/partner_logos/qcif.svg'
+    - 'images/main/partner_logos/QUTlogo-primary-white-rgb.svg'
     - 'images/main/partner_logos/uq.svg'   
     - 'images/main/partner_logos/unsw.svg'
     - 'images/main/partner_logos/uwa.svg'
