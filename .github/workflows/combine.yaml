@@ -1,0 +1,178 @@
+name: Deploy Hugo site & Lighthouse CI
+
+on:
+  # Deployment and Lighthouse on pushes to default branches
+  push:
+    branches: [ main, master ]
+
+  # Lighthouse on PRs
+  pull_request:
+    branches: [ main, master ]
+
+  # Manual trigger with the same input you had
+  workflow_dispatch:
+    inputs:
+      hugo_update_mod:
+        description: 'Hugo module to refresh (optional). Use "all" to clean all.'
+        required: false
+        type: string
+
+# Permissions required for GitHub Pages deployment
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent pages deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+# Default shell
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  # -------- BUILD (for Pages) --------
+  build:
+    # Avoid running the deployable build on pull_request events
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    env:
+      DART_SASS_VERSION: 1.89.2
+      HUGO_VERSION: 0.148.0
+      HUGO_ENVIRONMENT: production
+      TZ: Australia/Sydney
+    steps:
+      - name: Install Hugo CLI
+        run: |
+          wget -O "${{ runner.temp }}/hugo.deb" "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb"
+          sudo dpkg -i "${{ runner.temp }}/hugo.deb"
+
+      - name: Install Dart Sass
+        run: |
+          wget -O "${{ runner.temp }}/dart-sass.tar.gz" "https://github.com/sass/dart-sass/releases/download/${DART_SASS_VERSION}/dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz"
+          tar -xf "${{ runner.temp }}/dart-sass.tar.gz" --directory "${{ runner.temp }}"
+          sudo mv "${{ runner.temp }}/dart-sass/" /usr/local/bin
+          echo "/usr/local/bin/dart-sass" >> "$GITHUB_PATH"
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: ISSUE run patches
+        run: |
+          shopt -s nullglob
+          for p in patches/*.patch; do
+            patch < "$p" || true
+          done
+          shopt -u nullglob
+
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Install Node.js dependencies (if lockfile present)
+        run: |
+          [[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true
+
+      - name: Cache Restore
+        id: cache-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ${{ runner.temp }}/hugo_cache
+          key: hugo-${{ github.run_id }}
+          restore-keys: |
+            hugo-
+
+      - name: Configure Git
+        run: git config core.quotepath false
+
+      - name: Update Hugo cache to get modified content (workflow_dispatch only)
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.hugo_update_mod != '' }}
+        env:
+          HUGO_CACHEDIR: "${{ runner.temp }}/hugo_cache"
+        run: |
+          if [ "${{ inputs.hugo_update_mod }}" = "all" ]; then
+            hugo mod clean --all
+          else
+            hugo mod get -u "${{ inputs.hugo_update_mod }}"
+          fi
+
+      - name: Build with Hugo
+        env:
+          HUGO_CACHEDIR: "${{ runner.temp }}/hugo_cache"
+        run: |
+          hugo \
+            --gc \
+            --minify \
+            --baseURL "${{ steps.pages.outputs.base_url }}/"
+
+      - name: Cache Save
+        id: cache-save
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            ${{ runner.temp }}/hugo_cache
+          key: ${{ steps.cache-restore.outputs.cache-primary-key }}
+
+      - name: Upload artifact (public)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public
+
+  # -------- DEPLOY (to GitHub Pages) --------
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  # -------- LIGHTHOUSE CI --------
+  lighthouse:
+    # Run Lighthouse on PRs and pushes (optional: include workflow_dispatch)
+    if: github.event_name == 'pull_request' || github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Install Hugo (using the action here is simplest since this job runs on a fresh runner)
+      - name: Install Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: "0.148.0"
+          extended: true
+
+      - name: Build Hugo site
+        run: hugo --minify
+
+      # Assumes you have an lighthouserc.json configured to use ./public
+      # e.g. "collect": {"staticDistDir": "public"}
+      - name: Run Lighthouse CI
+        run: npx lhci autorun
+
+      - name: Upload Lighthouse results
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-results
+          path: lhci-results
+``
