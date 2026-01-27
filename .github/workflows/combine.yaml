@@ -175,4 +175,3 @@ jobs:
         with:
           name: lighthouse-results
           path: lhci-results
-``
