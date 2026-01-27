@@ -162,8 +162,8 @@ jobs:
           hugo-version: "0.148.0"
           extended: true
 
-      - name: Build Hugo site
-        run: hugo --minify
+      # - name: Build Hugo site
+      #  run: hugo --minify
 
       # Assumes you have an lighthouserc.json configured to use ./public
       # e.g. "collect": {"staticDistDir": "public"}
