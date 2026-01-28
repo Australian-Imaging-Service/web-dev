@@ -31,6 +31,14 @@
         {{ end }}
         <div class="pb-12 mt-6 text-lg text-gray-900 dark:text-white">
           {{ .Get "content"}}
+          {{if .Get "content_logo"}}
+          <div class="mt-6">
+            {{ with resources.Get (.Get "content_logo") }}
+            {{ $p2image := .RelPermalink }}
+            <img src="{{ $p2image }}" alt="p2" loading="lazy" />
+            {{ end }}
+          </div>
+          {{end}}
         </div>
         {{if .Get "button"}}
         <div class="flex pt-6 font-medium text-md">
