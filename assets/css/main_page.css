@@ -171,3 +171,27 @@ button {
   backdrop-filter: blur(17px);
   box-shadow: 0px 16px 56px 0px rgba(173, 184, 232, 0.24);
 }
+
+/* ===== Fix cropped partner logos ===== */
+
+/* 1) Stop the card wrapper from clipping logos */
+div.flex.flex-col.items-center.justify-center.overflow-hidden {
+  overflow: visible; /* prevent clipping caused by overflow-hidden */ /* [1](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/overflow) */
+}
+
+/* 2) Make the logo image fit inside the box without cropping/distortion */
+div.flex.flex-col.items-center.justify-center > img.object-fill {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;     /* show full logo; no cropping */ /* [2](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/object-fit) */
+  object-position: center; /* keep centered */               /* [2](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/object-fit) */
+  overflow: visible;       /* in case image itself has overflow-hidden */
+  display: block;
+}
+
+/* 3) If some logos still touch edges, give them a little breathing room */
+div.flex.flex-col.items-center.justify-center > img.logo-invert {
+  padding: 6px;
+  box-sizing: border-box;
+}
+
