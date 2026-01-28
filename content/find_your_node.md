@@ -14,6 +14,7 @@ params:
     - 'images/main/partner_logos/PeterMac_logo_rgb_white.svg'
     - 'images/main/partner_logos/qut.svg'
     - 'images/main/partner_logos/SAHMRI_rgb_mono_reverse_white.svg' 
+    - 'images/main/partner_logos/SUT_Lscape_Keyline_rgb_mono_white.svg'
     - 'images/main/partner_logos/uq.svg'   
     - 'images/main/partner_logos/unsw.svg'
     - 'images/main/partner_logos/uwa.svg'
