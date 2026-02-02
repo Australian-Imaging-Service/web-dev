@@ -324,7 +324,7 @@ menu:
       url: '/support'
       weight: 40
     - name: 'Find Nodes'
-      url: 'support/find_nodes'
+      url: 'support/find_your_node'
       parent: support
     - name: 'Contact Us'
       url: 'support/contact_us'
