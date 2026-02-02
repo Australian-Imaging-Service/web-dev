@@ -9,6 +9,7 @@ params:
   nodes:
     - 'images/main/partner_logos/usyd.svg'  
     - 'images/main/partner_logos/mqu.svg'
+    - 'images/main/partner_logos/MRFF_rgb_mono white.svg'
     - 'images/main/partner_logos/monash.svg'
     - 'images/main/partner_logos/university-of-newcastle_logo_rgb_white.svg'
     - 'images/main/partner_logos/PeterMac_logo_rgb_white.svg'
