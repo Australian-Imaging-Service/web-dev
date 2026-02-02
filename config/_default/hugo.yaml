@@ -276,6 +276,7 @@ menu:
   footer:
     - identifier: features
       name: Features
+      url: '/features'
       weight: 10
     - name: 'Data Management'
       url: 'features/data_management'
@@ -291,18 +292,20 @@ menu:
       parent: features
     - identifier: docs
       name: Docs
+      url: '/docs'
       weight: 20
     - name: 'Researchers'
-      url: 'docs/recearchers'
+      url: 'docs/researchers'
       parent: docs
-    - name: 'Facility Staff'
-      url: 'docs/facility_staff'
+    - name: 'Facilities'
+      url: 'docs/facilities'
       parent: docs
-    - name: 'Technicians'
-      url: 'docs/technicians'
+    - name: 'Technical Documentation'
+      url: 'docs/technical-documentation'
       parent: docs
     - identifier: about
       name: About
+      url: '/about'
       weight: 30
     - name: 'Mission'
       url: 'about/mission'
@@ -318,6 +321,7 @@ menu:
       parent: about
     - identifier: support
       name: Support
+      url: '/support'
       weight: 40
     - name: 'Find Nodes'
       url: 'support/find_nodes'
