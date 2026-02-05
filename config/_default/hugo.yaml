@@ -241,10 +241,10 @@ menu:
       name: Support
       url: /support/
       weight: 40
-    # - identifier: news
+    - identifier: news
       name: News
       url: /news/
-      weight: 20
+      weight: 50
   categories:
     - identifier: prose
       name: Prose
