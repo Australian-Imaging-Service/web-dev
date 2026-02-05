@@ -242,9 +242,9 @@ menu:
       url: /support/
       weight: 40
     # - identifier: news
-    #   name: News
-    #   url: /news/
-    #   weight: 20
+      name: News
+      url: /news/
+      weight: 20
   categories:
     - identifier: prose
       name: Prose
