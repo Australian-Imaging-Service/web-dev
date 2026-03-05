@@ -1,8 +1,8 @@
 ---
-title: "Interactive Analysis and Visualization"
+title: "Interactive Analysis & Visualization"
 weight: 50
 ---
 
-# Interactive analysis and visualization
+# Interactive analysis & visualization
 
-This section is for interactive analysis and visualization.
+This section is for interactive analysis & visualization.
