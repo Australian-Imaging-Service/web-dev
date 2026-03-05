@@ -1,8 +1,8 @@
 ---
-title: "Analysis workflows and Pipelines"
+title: "Analysis workflows & Pipelines"
 weight: 40
 ---
 
-# Analysis workflows and pipelines
+# Analysis workflows & pipelines
 
-This section is for analysis workflows and pipelines.
+This section is for analysis workflows & pipelines.
