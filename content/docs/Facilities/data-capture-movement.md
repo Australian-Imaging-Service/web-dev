@@ -1,6 +1,6 @@
 ---
 title: "Data Capture and Movement"
-weight: 30
+weight: 20
 ---
 
 # Data Capture and Movement
