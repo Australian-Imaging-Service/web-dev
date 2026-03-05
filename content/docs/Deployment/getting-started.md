@@ -1,8 +1,8 @@
 ---
-title: "Getting started"
+title: "Getting Started"
 weight: 10
 ---
 
-# Getting started
+# Getting Started
 
 This section is for getting started guide of deployment.
