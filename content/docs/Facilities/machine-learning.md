@@ -1,6 +1,6 @@
 ---
 title: "Machine Learning"
-weight: 50
+weight: 60
 ---
 
 # Machine Learning
