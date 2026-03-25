@@ -3,7 +3,6 @@ title: "Vectra Export Workflows"
 weight: 20
 ---
 
-# Vectra Export Workflows
 Adam Mothershaw — 16‑Jul‑2025
 
 ## Summary
