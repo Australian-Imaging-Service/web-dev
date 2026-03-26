@@ -15,12 +15,16 @@ Before running the script, ensure the following:
    - Bash shell
      
 2. **XNAT Requirements**
-   - Turn on the External Camera Session (xnat:xcSessionData) and External Camera Scan (xnat:xcScanData) data types (see below).
+   
+   - Turn on the External Camera Session (xnat:xcSessionData) & External Camera Scan (xnat:xcScanData) data types (see below).
+     
      <img width="660" height="451" alt="image" src="https://github.com/user-attachments/assets/cb22e73e-8a91-4a50-80f4-7cd89987f59e" />
+
    - Suggested to Set the User Session Timeout to be 60 minutes (see below).
+
      <img width="781" height="611" alt="image" src="https://github.com/user-attachments/assets/2fe70219-c6eb-4daf-9212-2bbeb9ee73ac" />
 
-3. **Installed Required Software Packages**
+4. **Installed Required Software Packages**
    Install the following dependencies using your package manager. For example, on Ubuntu: run
 
 ```
