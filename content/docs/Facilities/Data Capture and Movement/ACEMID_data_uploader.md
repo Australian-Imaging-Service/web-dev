@@ -48,24 +48,23 @@ Before running the script, ensure the following:
    - `Dockerfile` The Dockerfile used to build the docker image of the above bash scripts to run on different platforms.
     
 5. **Setup Instructions**
-1. **Clone the Repository**
-```
-git clone https://github.com/Australian-Imaging-Service/acemid-uploader.git
-cd acemid-uploader
-```
-2. **Configure Environment Variables**
-Export the following variables in your shell:
-```
-export XNAT_URL="your_xnat_url"
-export USERNAME="your_xnat_username"
-export PASSWORD="your_xnat_password"
-export PROJECT_ID="your_xnat_project_id"
-```
-You can also modify the script directly to hardcode these values if preferred.
+   - **Clone the Repository**
+   ```
+   git clone https://github.com/Australian-Imaging-Service/acemid-uploader.git
+   cd acemid-uploader
+   ```
+   - **Configure Environment Variables**
+   Export the following variables in your shell. You can also modify the script directly to hardcode these values if preferred.
+   ```
+   export XNAT_URL="your_xnat_url"
+   export USERNAME="your_xnat_username"
+   export PASSWORD="your_xnat_password"
+   export PROJECT_ID="your_xnat_project_id"
+   ```
 
-3. **Running the script**
-- For ACEMID_uploader.sh script, place this script in the folder of the cleaned export data file folder containing .db files and then run ./ACEMID_uploader.sh
-- For dermoscopy_data_upload.sh script, place this script in the dermoscopy data file folder containing .csv files and then run ./dermoscopy_data_upload.sh input_csv_file_name
-- For remove_phi_report.sh script, place this script in the folder containing the pdf files you want to process and then run ./remove_phi_report.sh
-- For stage_server_monitor.sh, please this script into the specified network drive folder you want to monitor and then run ./stage_server_monitor.sh
+   - **Running the script**
+   - For ACEMID_uploader.sh script, place this script in the folder of the cleaned export data file folder containing .db files and then run ./ACEMID_uploader.sh
+   - For dermoscopy_data_upload.sh script, place this script in the dermoscopy data file folder containing .csv files and then run ./dermoscopy_data_upload.sh input_csv_file_name
+   - For remove_phi_report.sh script, place this script in the folder containing the pdf files you want to process and then run ./remove_phi_report.sh
+   - For stage_server_monitor.sh, please this script into the specified network drive folder you want to monitor and then run ./stage_server_monitor.sh
 
