@@ -13,6 +13,7 @@ Before running the script, ensure the following:
 1. **System Requirements**
    - Unix-like OS (Linux/macOS)
    - Bash shell
+
      
 2. **XNAT Requirements**
    
@@ -20,22 +21,24 @@ Before running the script, ensure the following:
      
      <img width="660" height="451" alt="image" src="https://github.com/user-attachments/assets/cb22e73e-8a91-4a50-80f4-7cd89987f59e" />
 
+
    - Suggested to Set the User Session Timeout to be 60 minutes (see below).
 
      <img width="781" height="611" alt="image" src="https://github.com/user-attachments/assets/2fe70219-c6eb-4daf-9212-2bbeb9ee73ac" />
+     
 
-4. **Installed Required Software Packages**
+3. **Installed Required Software Packages**
    Install the following dependencies using your package manager. For example, on Ubuntu: run
 
-```
-sudo apt update
-sudo apt install csvkit pdftotext inotify-tools
-```
-- curl (for calling XNAT Restful APIs)
-- csvkit (for processing the csv files)
-- pdftotext (for converting PDF files to text files)
-- enscript (for converting text files back to PDF files)
-- inotify-tools (for monitoring changes to files and directories in real time)
+   ```
+   sudo apt update
+   sudo apt install csvkit pdftotext inotify-tools
+   ```
+   - curl (for calling XNAT Restful APIs)
+   - csvkit (for processing the csv files)
+   - pdftotext (for converting PDF files to text files)
+   - enscript (for converting text files back to PDF files)
+   - inotify-tools (for monitoring changes to files and directories in real time)
 
 4. **Explanations of each bash script**
 (1) ACEMID_uploader.sh The main ACEMID bash script to upload the cleaned Vectra exported data files to your XNAT instance using JSESSIONID.
