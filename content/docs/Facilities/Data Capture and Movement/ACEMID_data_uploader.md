@@ -63,8 +63,8 @@ Before running the script, ensure the following:
    ```
 
    - **Running the script**
-   - For ACEMID_uploader.sh script, place this script in the folder of the cleaned export data file folder containing .db files and then run ./ACEMID_uploader.sh
-   - For dermoscopy_data_upload.sh script, place this script in the dermoscopy data file folder containing .csv files and then run ./dermoscopy_data_upload.sh input_csv_file_name
-   - For remove_phi_report.sh script, place this script in the folder containing the pdf files you want to process and then run ./remove_phi_report.sh
-   - For stage_server_monitor.sh, please this script into the specified network drive folder you want to monitor and then run ./stage_server_monitor.sh
+      - For ACEMID_uploader.sh script, place this script in the folder of the cleaned export data file folder containing .db files and then run ./ACEMID_uploader.sh
+      - For dermoscopy_data_upload.sh script, place this script in the dermoscopy data file folder containing .csv files and then run ./dermoscopy_data_upload.sh input_csv_file_name
+      - For remove_phi_report.sh script, place this script in the folder containing the pdf files you want to process and then run ./remove_phi_report.sh
+      - For stage_server_monitor.sh, please this script into the specified network drive folder you want to monitor and then run ./stage_server_monitor.sh
 
