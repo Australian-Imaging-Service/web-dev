@@ -1,0 +1,233 @@
+# VS Code Remote Debugging Guide for XNAT Plugin (K8s)
+
+This guide explains how to set up VS Code remote debugging for an XNAT plugin running in a Kubernetes (microk8s) pod.
+
+## Prerequisites
+
+- VS Code with [Extension Pack for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack) installed
+- `kubectl` access to the XNAT K8s cluster
+- Plugin source code open in VS Code
+
+## Environment
+
+- **Namespace:** `ais-xnat`
+- **StatefulSet:** `xnat-web`
+- **Pod:** `xnat-web-0`
+- **Container:** `xnat-web`
+- **Java Version:** Java 8
+
+## Step 1: Enable Java Debug Agent in the Pod
+
+Add `JAVA_TOOL_OPTIONS` environment variable to the XNAT StatefulSet:
+
+```bash
+kubectl set env statefulset/xnat-web -n ais-xnat \
+  JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5005"
+```
+
+> **⚠️ Important Notes:**
+>
+> - Use `JAVA_TOOL_OPTIONS` instead of `CATALINA_OPTS`. Setting `CATALINA_OPTS` as an env var will **override** the original Tomcat startup options (including `${xnat.home}`), causing XNAT to fail with:
+>   ```
+>   IllegalArgumentException: The directory specified by base and internal path [${xnat.home}/plugins]/[] does not exist
+>   ```
+>   `JAVA_TOOL_OPTIONS` is **additive** and does not override existing JVM options.
+>
+> - Use `address=0.0.0.0:5005` for Java 8. The `address=*:5005` syntax is only supported in Java 9+. Java 8 will crash with:
+>   ```
+>   transport error 202: gethostbyname: unknown host
+>   ```
+
+After setting the env var, restart the pod to apply:
+
+```bash
+kubectl delete pod xnat-web-0 -n ais-xnat
+```
+
+Wait for the pod to be fully ready:
+
+```bash
+kubectl get pod -n ais-xnat -w
+```
+
+## Step 2: Set Up Port Forwarding
+
+Forward the debug port from the pod to your local machine:
+
+```bash
+kubectl port-forward -n ais-xnat statefulset/xnat-web 5005:5005
+```
+
+> Keep this terminal open while debugging. If the connection drops, re-run this command.
+
+## Step 3: Configure VS Code
+
+### launch.json
+
+Create `.vscode/launch.json` in your project root:
+
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Debug XNAT Plugin (Remote)",
+            "request": "attach",
+            "hostName": "localhost",
+            "port": 5005,
+            "projectName": "xnat-file-recall-plugin"
+        }
+    ]
+}
+```
+
+### tasks.json (Optional)
+
+Create `.vscode/tasks.json` for convenience tasks:
+
+```json
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Port Forward XNAT Debug",
+            "type": "shell",
+            "command": "kubectl port-forward -n ais-xnat statefulset/xnat-web 5005:5005",
+            "isBackground": true,
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Plugin JAR",
+            "type": "shell",
+            "command": "./gradlew xnatPluginJar",
+            "group": "build"
+        }
+    ]
+}
+```
+
+### settings.json (Optional)
+
+Create `.vscode/settings.json` to configure Java source paths:
+
+```json
+{
+    "java.project.sourcePaths": ["src/main/java", "src/main/resources"],
+    "java.project.referencedLibraries": ["libs/**/*.jar"]
+}
+```
+
+## Step 4: Start Debugging
+
+1. Ensure the pod is **Running** and **Ready** (`2/2`):
+   ```bash
+   kubectl get pod -n ais-xnat
+   ```
+
+2. Start port forwarding in a VS Code terminal:
+   ```bash
+   kubectl port-forward -n ais-xnat statefulset/xnat-web 5005:5005
+   ```
+   You should see:
+   ```
+   Forwarding from 127.0.0.1:5005 -> 5005
+   Forwarding from [::1]:5005 -> 5005
+   ```
+
+3. Set breakpoints in your Java source files by clicking the left gutter (red dots will appear)
+
+4. In VS Code, go to **Run and Debug** panel (Ctrl+Shift+D)
+
+5. Select **"Debug XNAT Plugin (Remote)"** from the dropdown
+
+6. Click the **green play button** (▶) or press **F5**
+
+7. VS Code status bar should turn orange and show **"Debug XNAT Plugin (Remote)"**, confirming the debugger is connected
+
+8. Trigger the code path (e.g., refresh a session page in XNAT browser)
+
+9. When a breakpoint is hit, the terminal will show `Handling connection for 5005`, and VS Code will pause at the breakpoint where you can inspect variables, step through code, etc.
+
+
+## Troubleshooting
+
+### Debugger fails to connect
+
+```
+Failed to attach to remote debuggee VM. Reason: java.io.IOException:
+Failed to attach to localhost:5005 (attach timeout 30000, handshake timeout 0)
+```
+
+**Cause:** Pod not ready yet, or port forwarding not running.
+
+**Fix:**
+1. Check pod status: `kubectl get pod -n ais-xnat`
+2. Ensure port forwarding is running
+3. Try again after pod shows `2/2 Running`
+
+### XNAT won't start (503 error)
+
+```
+IllegalArgumentException: The directory specified by base and internal path
+[${xnat.home}/plugins]/[] does not exist
+```
+
+**Cause:** Used `CATALINA_OPTS` instead of `JAVA_TOOL_OPTIONS`.
+
+**Fix:**
+```bash
+# Remove CATALINA_OPTS
+kubectl set env statefulset/xnat-web -n ais-xnat CATALINA_OPTS-
+
+# Use JAVA_TOOL_OPTIONS instead
+kubectl set env statefulset/xnat-web -n ais-xnat \
+  JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=0.0.0.0:5005"
+
+# Restart pod
+kubectl delete pod xnat-web-0 -n ais-xnat
+```
+
+### Java 8 crash with `address=*:5005`
+
+```
+transport error 202: gethostbyname: unknown host
+```
+
+**Cause:** `*:5005` syntax is Java 9+ only.
+
+**Fix:** Use `address=0.0.0.0:5005` for Java 8.
+
+### Breakpoints not hitting
+
+Possible causes:
+- Source code doesn't match the deployed JAR — rebuild and redeploy
+- Verify JAR file sizes match:
+  ```bash
+  # Local
+  ls -la build/libs/*.jar
+
+  # Pod
+  kubectl exec -n ais-xnat xnat-web-0 -c xnat-web -- ls -la /usr/local/share/xnat/plugins/
+  ```
+
+### log.info not appearing in pod logs
+
+**Cause:** Pod loaded old JAR, or logging level is filtered.
+
+**Fix:**
+1. Restart pod **after** copying the new JAR
+2. Use `log.error()` instead of `log.info()` to bypass log level filtering
+3. Check logs:
+   ```bash
+   kubectl logs -n ais-xnat xnat-web-0 -c xnat-web --tail=100 | grep "your log message"
+   ```
+
+## Cleanup
+
+In a development/testing environment, you can leave `JAVA_TOOL_OPTIONS` enabled — it has no significant performance impact (`suspend=n` means the JVM won't wait for a debugger connection). Only remove it before deploying to production:
+
+```bash
+kubectl set env statefulset/xnat-web -n ais-xnat JAVA_TOOL_OPTIONS-
+kubectl delete pod xnat-web-0 -n ais-xnat
+```
