@@ -96,11 +96,12 @@ jobs:
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.hugo_update_mod != '' }}
         env:
           HUGO_CACHEDIR: "${{ runner.temp }}/hugo_cache"
+          HUGO_UPDATE_MOD: ${{ inputs.hugo_update_mod }}
         run: |
-          if [ "${{ inputs.hugo_update_mod }}" = "all" ]; then
+          if [ "${HUGO_UPDATE_MOD}" = "all" ]; then
             hugo mod clean --all
           else
-            hugo mod get -u "${{ inputs.hugo_update_mod }}"
+            hugo mod get -u "${HUGO_UPDATE_MOD}"
           fi
 
       - name: Build with Hugo
