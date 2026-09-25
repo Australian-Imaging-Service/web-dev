@@ -1,4 +1,4 @@
-name: Deploy Hugo site to Pages
+name: github pages
 
 on:
   # Runs on pushes targeting the default branch
