@@ -50,17 +50,17 @@ params:
   disable_stay_uptodate: false
 
   section1:
-    heading: "Built for Australian research community"
+    heading: "Built by the Australian research community"
     content: ''
     built_for:
       - title: 'Researchers'
-        summary: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed erat nibh tristique ipsum.'
+        summary: 'Improve your research at scale'
         border_class: 'border-left-blue'
       - title: 'Facility Staff'
-        summary: 'Highly skilled scientists who contribute technically and intellectually to research projects.'
+        summary: 'Streamline facility operatiosn with automated data capture, QA, & movement.'
         border_class: 'border-left-green'
       - title: 'Hospital & Ethics Committee'
-        summary: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed erat nibh tristique ipsum.'
+        summary: 'Improve privacy, security, and governance over your research participant data.'
         border_class: 'border-left-purple'
   section2:
     heading: "Easy, secure and powerful"
