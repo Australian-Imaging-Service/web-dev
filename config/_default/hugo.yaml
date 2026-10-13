@@ -69,7 +69,7 @@ params:
     analysis_techniques:
       - title: 'Data Capture & Movement'
         summary: 'Automatically capture, de-identify, and route data from connected sites to your repository.'
-        classes: 'images/main/interactive_analysis.jpg'
+        classes: 'col-span-2 bg-gradient-right'
       - title: 'Data Management & Curation'
         summary: 'Store, annotate, share, and archive large datasets.'
         classes: 'col-span-2 bg-gradient-right'
