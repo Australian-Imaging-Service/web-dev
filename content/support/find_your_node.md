@@ -8,17 +8,17 @@ description: "The following nodes are live or plan to go live under the current 
 params:
   nodes:
     - 'images/main/partner_logos/usyd.svg'  
-      url: 'https://xnat.sydney.edu.au/'
-    - 'images/main/partner_logos/mqu.svg'
-    - 'images/main/partner_logos/monash.svg'
+    - 'images/main/partner_logos/UQlogo-Mono-rgb-white.svg'   
+    - 'images/main/partner_logos/uwa.svg'
+    - 'images/main/partner_logos/UNSW_Horizontal_mono_logo_2021_white.svg'
     - 'images/main/partner_logos/university-of-newcastle_logo_rgb_white.svg'
-    - 'images/main/partner_logos/PeterMac_logo_rgb_white.svg'
     - 'images/main/partner_logos/qut.svg'
+    - 'images/main/partner_logos/monash.svg'
     - 'images/main/partner_logos/SAHMRI_rgb_mono_reverse_white.svg' 
     - 'images/main/partner_logos/SUT_Lscape_Keyline_rgb_mono_white.svg'
-    - 'images/main/partner_logos/UQlogo-Mono-rgb-white.svg'   
-    - 'images/main/partner_logos/UNSW_Horizontal_mono_logo_2021_white.svg'
-    - 'images/main/partner_logos/uwa.svg'
+    - 'images/main/partner_logos/PeterMac_logo_rgb_white.svg'
+    - 'images/main/partner_logos/CSIRO-white.svg'
+    - 'images/main/partner_logos/mqu.svg'
 ---
 
 
