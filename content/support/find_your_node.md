@@ -2,8 +2,8 @@
 date: 2026-01-19T11:10:36+08:00
 draft: false
 language: en
-header: "Partner organisations"
-description: "Till March 2023, Australian Imaging Service (AIS) proudly partnered with 13 nodes."
+header: "AIS Nodes"
+<!--description: "Till March 2023, Australian Imaging Service (AIS) proudly partnered with 13 nodes."-->
 title: 'Start today with your node.'
 params:
   nodes:
