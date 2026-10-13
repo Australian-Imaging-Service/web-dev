@@ -57,7 +57,7 @@ params:
         summary: 'Improve your research at scale'
         border_class: 'border-left-blue'
       - title: 'Facility Staff'
-        summary: 'Streamline facility operatiosn with automated data capture, QA, & movement.'
+        summary: 'Streamline facility operations with automated data capture, QA, reporting.'
         border_class: 'border-left-green'
       - title: 'Hospital & Ethics Committee'
         summary: 'Improve privacy, security, and governance over your research participant data.'
