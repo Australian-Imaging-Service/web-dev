@@ -6,7 +6,7 @@ description: "\"Our mission is to increase research reproducibility and drive th
 signature: "Dr Ryan Sullivan"
 designation: 'Director, Australian Imaging Service'
 ---
-
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Accumsan lacus vel facilisis volutpat est velit egestas
 {{< render_federated_model >}}
 {{< right_aligned_image_with_desc heading="Compliance" content="Commodo diam vulputate dui proin quis enim nibh. Non integer ac libero facilisis hendrerit a at. Nisi sem ut sed sed faucibus at eu elit." img_path="images/main/pages/compliance.png" button="Start your compliance docs &nbsp;&nbsp;>">}}
 {{< funded_by >}}
