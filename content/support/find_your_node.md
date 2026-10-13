@@ -8,6 +8,7 @@ description: "The following nodes are live or plan to go live under the current 
 params:
   nodes:
     - 'images/main/partner_logos/usyd.svg'  
+      url: 'https://xnat.sydney.edu.au/'
     - 'images/main/partner_logos/mqu.svg'
     - 'images/main/partner_logos/monash.svg'
     - 'images/main/partner_logos/university-of-newcastle_logo_rgb_white.svg'
