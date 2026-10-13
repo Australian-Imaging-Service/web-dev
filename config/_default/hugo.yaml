@@ -129,6 +129,10 @@ params:
       - title: 'QUT'
         featured_image: 'images/main/partner_logos/qut.svg'
 
+  section5:
+    title: "Join AIS Today!"
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+    button: 'Find your node'
   social_media:
     github:
       enabled: true
