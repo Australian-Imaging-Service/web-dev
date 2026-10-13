@@ -63,7 +63,7 @@ params:
         summary: 'Improve privacy, security, and governance over your research participant data.'
         border_class: 'border-left-purple'
   section2:
-    heading: "Easy, secure and powerful"
+    heading: "Easy, secure, and powerful"
     content:
       - text: "We aim to increase research reproducibility and drive the adoption of innovative but trusted analysis techniques."
     analysis_techniques:
@@ -85,7 +85,7 @@ params:
         classes: 'col-span-3 bg-img'
         bg_image: 'images/main/interactive_analysis.jpg'
       - title: 'Data Publishing & Discovery'
-        summary: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed erat nibh tristique ipsum.'
+        summary: 'Mint DOIs for your datasets and publish metadata in national discovery portal to find new collaborations'
         classes: 'col-span-2 bg-gradient-left'
 
   section3:
