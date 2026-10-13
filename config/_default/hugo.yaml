@@ -67,6 +67,12 @@ params:
     content:
       - text: "We aim to increase research reproducibility and drive the adoption of innovative but trusted analysis techniques."
     analysis_techniques:
+      - title: 'Title 1'
+        summary: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed erat nibh tristique ipsum.'
+        classes: 'col-span-2 bg-gradient-right'
+      - title: 'Title 2'
+        summary: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed erat nibh tristique ipsum.'
+        classes: 'col-span-2 bg-gradient-right'
       - title: 'Secure Data Management'
         summary: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed erat nibh tristique ipsum.'
         classes: 'col-span-2 bg-gradient-right'
