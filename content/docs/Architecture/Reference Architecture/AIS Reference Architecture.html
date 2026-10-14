@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AIS Reference Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FBFCFD; --ink:#18233A; --muted:#5A6478; --rule:#D9DFE7;
+  --side:#13203A; --side-ink:#C9D3E3; --side-dim:#8794AD; --side-hi:#FFFFFF;
+  --accent:#0B7A85; --accent-soft:#E3F3F4;
+  --warn:#9A5B00; --warn-soft:#FFF4E0;
+  --info:#2F5DA8; --info-soft:#E8EFFA;
+  --code:#EEF1F5; --th:#EDF2F7;
+  --sans:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --side-w:300px;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1524; --ink:#E3E8F1; --muted:#9AA5BA; --rule:#28324A;
+    --side:#0A0F1B; --side-ink:#B9C4D8; --side-dim:#7180A0;
+    --accent:#3FC1CB; --accent-soft:#12303A;
+    --warn:#F0B54A; --warn-soft:#2E2412;
+    --info:#86AEF0; --info-soft:#18243D;
+    --code:#1A2236; --th:#182036;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1524; --ink:#E3E8F1; --muted:#9AA5BA; --rule:#28324A;
+  --side:#0A0F1B; --side-ink:#B9C4D8; --side-dim:#7180A0;
+  --accent:#3FC1CB; --accent-soft:#12303A;
+  --warn:#F0B54A; --warn-soft:#2E2412;
+  --info:#86AEF0; --info-soft:#18243D;
+  --code:#1A2236; --th:#182036;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 24px);scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:1.0625rem;line-height:1.65}
+img{max-width:100%}
+a{color:var(--accent);text-underline-offset:2px}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+
+/* Sidebar */
+.side{position:fixed;top:0;bottom:0;left:0;width:var(--side-w);background:var(--side);color:var(--side-ink);
+  display:flex;flex-direction:column;font-family:var(--sans);z-index:20;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.brand{padding:1.5rem 1.4rem 1.1rem;border-bottom:1px solid rgba(255,255,255,.08)}
+.brand a{color:var(--side-hi);text-decoration:none;font-weight:700;font-size:1.05rem;line-height:1.3;display:block}
+.brand small{display:block;color:var(--side-dim);font-size:.8rem;margin-top:.25rem}
+.filter{margin:1rem 1.4rem .5rem;position:relative}
+.filter input{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:var(--side-hi);
+  font:inherit;font-size:.875rem;padding:.5rem .7rem;border-radius:6px}
+.filter input::placeholder{color:var(--side-dim)}
+nav.toc{overflow-y:auto;flex:1;padding:.4rem 0 2rem}
+.toc ol{list-style:none;margin:0;padding:0}
+.toc > ol > li > a{display:flex;gap:.6rem;padding:.42rem 1.4rem;color:var(--side-ink);text-decoration:none;font-size:.9rem;font-weight:500;border-left:3px solid transparent}
+.toc > ol > li > a .n{color:var(--side-dim);font-variant-numeric:tabular-nums;min-width:1.4rem}
+.toc a:hover{color:var(--side-hi);background:rgba(255,255,255,.04)}
+.toc ol ol{display:none;padding-bottom:.3rem}
+.toc li.open > ol{display:block}
+.toc ol ol a{display:block;padding:.28rem 1.4rem .28rem 3.4rem;color:var(--side-dim);text-decoration:none;font-size:.835rem;line-height:1.35;border-left:3px solid transparent}
+.toc a.active{color:var(--side-hi);border-left-color:var(--accent);background:rgba(255,255,255,.05)}
+.toc.filtering ol ol{display:block}
+.toc li.hide{display:none}
+.side-foot{padding:.9rem 1.4rem;border-top:1px solid rgba(255,255,255,.08);font-size:.78rem;color:var(--side-dim)}
+.side-foot a{color:var(--side-ink)}
+
+/* Mobile bar */
+.bar{display:none;position:sticky;top:env(safe-area-inset-top,0px);z-index:15;background:var(--side);color:var(--side-hi);
+  font-family:var(--sans);align-items:center;gap:.75rem;padding:.65rem 1rem}
+.bar button{background:none;border:1px solid rgba(255,255,255,.25);color:inherit;font:inherit;font-size:.85rem;padding:.35rem .7rem;border-radius:6px;cursor:pointer}
+.bar span{font-weight:600;font-size:.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.scrim{display:none}
+
+/* Content */
+main{margin-left:var(--side-w);padding:3.5rem clamp(1.25rem,5vw,4.5rem) 6rem}
+.wrap{max-width:46rem}
+.hero{border-bottom:1px solid var(--rule);padding-bottom:2rem;margin-bottom:2.5rem}
+.hero .org{font-family:var(--sans);font-size:.9rem;color:var(--muted);margin:0 0 1rem;font-weight:500}
+.hero h1{font-family:var(--sans);font-weight:700;font-size:clamp(2.1rem,4.6vw,3.3rem);line-height:1.05;letter-spacing:-.02em;margin:0 0 1.25rem;max-width:14ch}
+.hero p{font-size:1.15rem;color:var(--muted);margin:0;max-width:38rem}
+.meta{font-family:var(--sans);font-size:.8rem;color:var(--muted);margin-top:1.4rem}
+h2,h3,h4{font-family:var(--sans);line-height:1.25;color:var(--ink)}
+h2{font-size:1.65rem;font-weight:700;letter-spacing:-.01em;margin:4rem 0 1rem;padding-top:1rem;border-top:2px solid var(--ink);display:flex;gap:.9rem;align-items:baseline;flex-wrap:wrap}
+h2 .n{color:var(--accent);font-variant-numeric:tabular-nums;font-size:1.1rem}
+section:first-of-type > h2{margin-top:0}
+h3{font-size:1.25rem;font-weight:600;margin:2.6rem 0 .75rem}
+h4{font-size:1.02rem;font-weight:600;margin:2rem 0 .6rem}
+p{margin:0 0 1.05rem}
+ul,ol{padding-left:1.4rem;margin:0 0 1.1rem}
+li{margin:.25rem 0}
+li > ul{margin:.25rem 0 .4rem}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:.88em;background:var(--code);padding:.08em .35em;border-radius:4px}
+strong{font-weight:600}
+.status{font-family:var(--sans);font-size:.7rem;font-weight:700;padding:.18rem .5rem;border-radius:4px;letter-spacing:.02em;vertical-align:middle}
+.status.ok{background:#DFF5E6;color:#17663A}
+.status.pending{background:#FFF1C9;color:#7A5600}
+
+/* Callouts */
+.callout{font-family:var(--sans);font-size:.95rem;line-height:1.6;border-left:4px solid var(--accent);background:var(--accent-soft);padding:1rem 1.2rem;margin:1.4rem 0;border-radius:0 6px 6px 0}
+.callout > :last-child{margin-bottom:0}
+.callout .label{display:block;font-weight:700;color:var(--accent);margin-bottom:.35rem;font-size:.85rem}
+.callout.warn{border-color:var(--warn);background:var(--warn-soft)}
+.callout.warn .label{color:var(--warn)}
+.callout.info{border-color:var(--info);background:var(--info-soft)}
+.callout.info .label{color:var(--info)}
+.ref{font-family:var(--sans);font-size:.85rem;color:var(--muted);margin:1rem 0 1.4rem;padding-left:1rem;border-left:2px solid var(--rule);overflow-wrap:anywhere}
+.ref p{margin:.2rem 0}
+
+/* Diagram placeholders */
+figure.diagram{margin:1.6rem 0;border:1px dashed var(--rule);border-radius:8px;padding:1.4rem 1.2rem;font-family:var(--sans);
+  display:flex;gap:1rem;align-items:center;background:repeating-linear-gradient(135deg,transparent 0 10px,var(--code) 10px 11px)}
+figure.diagram svg{flex:none;color:var(--muted)}
+figure.diagram figcaption{font-size:.88rem;color:var(--muted)}
+figure.diagram figcaption b{display:block;color:var(--ink);font-weight:600;font-size:.92rem;margin-bottom:.15rem}
+
+
+/* Embedded diagrams */
+:root{--fig-min:240px;--fig-max:1200px;--fig-scroll-max:min(160%,900px)}
+/* Wide tables share the diagrams' width so both line up */
+.table.wide{width:100%;width:min(100cqw,var(--fig-max))}
+main{container-type:inline-size}
+figure.diagram-img{position:relative;margin:2rem 0;width:100%;width:min(100cqw,var(--fig-max));
+  border:1px solid var(--rule);border-radius:8px;overflow:hidden;background:var(--th)}
+figure.diagram-img > a{display:block;background:#FFFFFF;padding:clamp(.5rem,2vw,1.25rem);overflow-x:auto;cursor:zoom-in;-webkit-overflow-scrolling:touch}
+/* Fills the frame, never upscales past the file's own size, and never drops below --fig-min tall
+   (capped at the file's own height); when that makes it wider than the frame, the frame scrolls sideways */
+figure.diagram-img img{display:block;margin:0 auto;height:auto;width:100%;
+  max-width:calc(var(--nw,100000) * 1px);
+  min-width:min(calc(min(var(--fig-min), var(--nh,0) * 1px) * var(--r,0)), var(--fig-scroll-max))}
+/* On large screens never force sideways scrolling: the minimum height applies only up to the frame's width */
+@media (min-width:1100px){
+  figure.diagram-img img{min-width:min(calc(min(var(--fig-min), var(--nh,0) * 1px) * var(--r,0)), 100%)}
+}
+figure.diagram-img figcaption{font-family:var(--sans);font-size:.85rem;color:var(--muted);padding:.6rem 1rem;border-top:1px solid var(--rule)}
+figure.diagram-img .fig-hint{display:none;font-family:var(--sans);font-size:.78rem;color:var(--muted);padding:.45rem 1rem;border-top:1px solid var(--rule)}
+figure.diagram-img.scrolls .fig-hint{display:block}
+
+/* Full-screen viewer */
+.lightbox{position:fixed;inset:0;z-index:50;display:none;overflow:auto;background:#0A0F1B;
+  padding:calc(env(safe-area-inset-top,0px) + 3.75rem) clamp(.5rem,3vw,2rem) calc(env(safe-area-inset-bottom,0px) + 1.5rem)}
+.lightbox.open{display:block}
+.lightbox img{display:block;margin:0 auto;background:#FFFFFF;border-radius:6px;padding:clamp(.5rem,1.5vw,1.25rem);max-width:none;width:auto;height:auto}
+.lightbox.fit img{max-width:100%;max-height:calc(100vh - 6rem);max-height:calc(100dvh - 6rem);object-fit:contain}
+.lightbox.svg.fit img{width:100%}
+.lightbox.svg:not(.fit) img{width:max(100%,1800px);max-width:none}
+.lightbox-bar{position:fixed;z-index:51;top:calc(env(safe-area-inset-top,0px) + .75rem);left:clamp(.5rem,3vw,2rem);right:clamp(.5rem,3vw,2rem);
+  display:flex;gap:.5rem;align-items:center;font-family:var(--sans)}
+.lightbox-bar span{flex:1;color:#C9D3E3;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lightbox-bar button,.lightbox-bar a{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);color:#fff;font:inherit;font-size:.85rem;
+  padding:.4rem .75rem;border-radius:6px;cursor:pointer;text-decoration:none;white-space:nowrap}
+.lightbox-bar button:hover,.lightbox-bar a:hover{background:rgba(255,255,255,.2)}
+body.lb-open{overflow:hidden}
+
+/* Tables */
+.table{overflow-x:auto;margin:1.4rem 0 1.8rem;border:1px solid var(--rule);border-radius:6px}
+table{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:.86rem;line-height:1.5}
+th,td{text-align:left;vertical-align:top;padding:.6rem .75rem;border-bottom:1px solid var(--rule)}
+thead th,tbody th{background:var(--th);font-weight:600}
+tr:last-child td,tr:last-child th{border-bottom:0}
+.wide{max-width:none}
+.wide table{min-width:860px}
+
+.backtop{font-family:var(--sans);font-size:.85rem;margin-top:4rem;padding-top:1.4rem;border-top:1px solid var(--rule);color:var(--muted)}
+
+@media (max-width:900px){
+  .side{transform:translateX(-100%);transition:transform .2s ease;width:min(86vw,320px)}
+  body.nav-open .side{transform:none}
+  .scrim{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:18}
+  body.nav-open .scrim{display:block}
+  .bar{display:flex}
+  main{margin-left:0;padding-top:2rem}
+}
+
+@media (max-width:1200px) and (min-width:901px){:root{--side-w:260px}}
+@media (max-width:600px){
+  body{font-size:1rem}
+  main{padding:1.5rem 1rem 4rem}
+  h2{font-size:1.4rem;margin-top:3rem}
+  h3{font-size:1.15rem}
+  .callout{padding:.85rem 1rem}
+  .lightbox-bar .lb-new{display:none}
+  :root{--fig-min:220px}
+}
+@media (prefers-reduced-motion:reduce){.side{transition:none}}
+@media print{.side,.bar,.scrim{display:none}main{margin:0;padding:0}}
+</style>
+</head>
+<body>
+
+<aside class="side" id="side" aria-label="Contents">
+  <div class="brand">
+    <a href="#top">AIS Reference Architecture</a>
+    <small>Australian Imaging Service</small>
+  </div>
+  <div class="filter">
+    <label for="q" class="sr" style="position:absolute;left:-9999px">Filter sections</label>
+    <input id="q" type="search" placeholder="Filter sections" autocomplete="off">
+  </div>
+  <nav class="toc" id="toc"></nav>
+  <div class="side-foot">Source: <a href="https://sydneyuni.atlassian.net/wiki/spaces/IA/pages/4360732673/RA+-+Australian+Imaging+Service">Confluence (IA space)</a></div>
+</aside>
+<div class="scrim" id="scrim"></div>
+
+<div class="bar">
+  <button id="menuBtn" aria-controls="side" aria-expanded="false">Menu</button>
+  <span id="barTitle">AIS Reference Architecture</span>
+</div>
+
+<main id="top">
+<div class="wrap">
+
+<header class="hero">
+  <p class="org">The University of Sydney</p>
+  <h1>AIS Reference Architecture</h1>
+  <p>Core components and integration patterns for imaging platforms across the Australian Imaging Service federation.</p>
+  <div class="meta">Reference Architecture is a live document. Expect changes.</div>
+</header>
+
+<section>
+<h2>Introduction</h2>
+<p>The <strong>Australian Imaging Service (AIS)</strong> is a national biomedical imaging platform providing end-to-end capabilities for imaging data ingestion, management, analysis, and sharing. Delivered as an open-source platform and operated as a federation of institutional nodes, AIS enables a cohesive national imaging data fabric built on consistent, reusable architectural patterns.</p>
+<p>The AIS reference architecture defines the core components and integration principles that support data provenance, reproducibility, and interoperability across sites, while remaining intentionally non-prescriptive to allow institutions to align deployments with their local environments.</p>
+</section>
+
+<section>
+<h2>Purpose</h2>
+<p>The AIS Reference Architecture provides a high-level, standardised blueprint that outlines recommended architectural patterns and best practices for imaging platforms within AIS. It is intended to inform and guide solution design, rather than mandate detailed implementation or governance controls, enabling flexibility while promoting architectural consistency across AIS implementations.</p>
+</section>
+
+<section>
+<h2>Scope</h2>
+<ul>
+  <li><strong>In scope</strong>
+    <ul>
+      <li>Identity and access patterns</li>
+      <li>Governance and provisioning</li>
+      <li>Imaging Data Ingestion and Processing</li>
+      <li>Storage, compute, and collaboration</li>
+      <li>Core imaging platforms (e.g. XNAT)</li>
+    </ul>
+  </li>
+  <li><strong>Out of scope</strong>
+    <ul>
+      <li>Project-specific configurations</li>
+      <li>Environment-specific infrastructure sizing</li>
+      <li>Operational runbooks</li>
+    </ul>
+  </li>
+</ul>
+</section>
+
+<section>
+<h2>AIS Imaging Platform Reference Architecture</h2>
+
+<figure class="diagram-img">
+  <a href="assets/RA-AIS.png" target="_blank" rel="noopener"><img src="assets/RA-AIS.png" alt="AIS imaging platform reference architecture" loading="lazy"></a>
+  <figcaption>AIS imaging platform reference architecture</figcaption>
+</figure></section>
+
+<section>
+<h2>Identity and Access Management</h2>
+<h3>Authentication and Federation</h3>
+<p>AIS supports multiple XNAT authentication providers, including Local Database (LocalDB), LDAP, and OpenID Connect (OIDC), via XNAT’s authentication provider framework.</p>
+<div class="callout"><span class="label">Recommendation</span><p>To support cross-institutional research collaboration, AIS recommends Australian Access Federation (AAF) OpenID Connect as the primary authentication mechanism for interactive user access. This enables federated authentication for internal and external researchers while reducing the need for local account management.</p></div>
+<p>AIS distinguishes between <strong>interactive user authentication</strong> and <strong>system-to-system authentication</strong>. While OIDC is used for user access, automated integrations authenticate using local service accounts and API tokens.</p>
+<div class="ref"><p>Reference: <a href="https://wiki.xnat.org/documentation/configuring-authentication-providers">wiki.xnat.org/documentation/configuring-authentication-providers</a></p></div>
+
+<h4>Service-to-Service Authentication</h4>
+<p>Even when an OpenID Connect (OIDC) provider is configured for automatic user provisioning, XNAT continues to support the explicit creation of local user accounts for non-interactive access, such as API integrations, automation, and scripting.</p>
+<p>Authorised local service accounts can be granted permissions to provision and manage XNAT resources and authenticate using API tokens (User Alias Tokens), independently of OIDC-based user authentication.</p>
+<div class="table"><table>
+<thead><tr><th>Integration Type</th><th>Recommended Authentication</th></tr></thead>
+<tbody>
+<tr><td>Provisioning APIs</td><td>Service account + API token (User Alias Token)</td></tr>
+<tr><td>Automation / CI pipelines</td><td>Service account + API token</td></tr>
+<tr><td>Node federation</td><td>Service account + API token</td></tr>
+<tr><td>DICOM import service</td><td>Service account + API token</td></tr>
+<tr><td>User Access (SSO)</td><td>OIDC (AAF / enterprise IdP)</td></tr>
+</tbody></table></div>
+<div class="ref"><p>Reference: <a href="https://wiki.xnat.org/xnat-api/user-alias-token-api">wiki.xnat.org/xnat-api/user-alias-token-api</a></p></div>
+<div class="callout"><span class="label">Recommendation</span>
+<p>AIS adopts a clear separation between interactive user authentication and system-to-system authentication.</p>
+<p>AIS recommends Australian Access Federation (AAF) OpenID Connect for all interactive user access, while reserving local XNAT service accounts for non-interactive system integrations.</p>
+<p>All automated access to XNAT APIs within AIS SHOULD use API tokens issued to dedicated service accounts rather than user credentials.</p></div>
+
+<h3>Authorisation</h3>
+<p>XNAT uses <strong>role-based access control (RBAC)</strong>, with permissions primarily managed at the <strong>project level</strong>.</p>
+<div class="callout"><span class="label">AIS recommends</span><ul>
+<li>Manage access through <strong>project membership</strong>, not site-level permissions.</li>
+<li>Separate platform administration from research project roles.</li></ul></div>
+</section>
+
+<section>
+<h2>Governance and Provisioning</h2>
+<h3>Projects</h3>
+<p>Research projects may be created directly within XNAT. When research projects originate in external systems, they can be provisioned into XNAT using XNAT’s exposed provisioning APIs. Refer to the <a href="https://wiki.xnat.org/xnat-api/xnat-rest-api-directory#XNATRESTAPIDirectory-WorkingWithProjects">XNAT Data Management API</a> for automated project creation.</p>
+<p>At this stage, AIS does not enforce project-level research governance controls. Institutions that require projects to be linked to ethics approvals, grants, or research data management plans are expected to manage these governance processes externally and provision AIS projects only after the required approvals and linkages have been satisfied, typically via automated provisioning mechanisms.</p>
+<div class="callout warn"><span class="label">Warning</span><p>Although XNAT enforces fine-grained dataset-level access controls within a project scope, these restrictions do not extend to interactive and batch compute environments. Consequently, users with limited data access within a project may gain access to all project data during analysis workflows.</p></div>
+
+<h3>Collaborators</h3>
+<p>AIS adopts a <strong>project-centric collaboration model</strong> to enable secure, cross-institutional research while preserving institutional autonomy. Collaborators are granted access at the project level, with authentication typically provided through federated identity (e.g. AAF) and authorisation enforced locally via role-based access control.</p>
+<p>Collaboration is explicitly scoped, auditable, and does not imply data ownership transfer. Data remains under the control of the hosting institution unless shared through approved workflows.</p>
+<div class="callout"><span class="label">AIS recommends</span><ul>
+<li>Collaboration should be managed through <strong>project-level roles</strong>, not shared accounts (local DB accounts).</li>
+<li>External collaborators should authenticate using <strong>federated identity</strong>.</li></ul></div>
+</section>
+
+<section>
+<h2>Imaging Data Ingestion</h2>
+<h3>XNAT Native DICOM Ingestion</h3>
+<figure class="diagram-img">
+  <a href="assets/RA-AIS-Ingest-Native.png" target="_blank" rel="noopener"><img src="assets/RA-AIS-Ingest-Native.png" alt="XNAT native image ingestion" loading="lazy"></a>
+</figure>
+<p>XNAT provides native DICOM ingestion capabilities, allowing clinical scanners or PACS systems to send imaging studies directly to XNAT using the DICOM C-STORE protocol. XNAT also exposes REST APIs for dataset import, enabling DICOM files to be uploaded programmatically over HTTPS by ingestion tools or research workflows.</p>
+<p>While direct integration with scanners or PACS is supported, the native ingestion mechanism provides limited retry handling if the destination system is temporarily unavailable. In addition, when AIS is hosted in the cloud, sending DICOM data directly from clinical systems may result in non-anonymised patient information traversing external networks.</p>
+<p>AIS therefore recommends performing anonymisation at the source before transmitting imaging data to XNAT, typically through an ingestion gateway such as Clinical Trial Processor (CTP) or a processing service.</p>
+<div class="ref"><p>Source: <a href="https://wiki.xnat.org/documentation/connecting-xnat-to-dicom-scanners-and-pacs">wiki.xnat.org/documentation/connecting-xnat-to-dicom-scanners-and-pacs</a></p></div>
+
+<h4>Security and Authentication: native ingestion</h4>
+<p>The table below summarises the system interactions involved in this ingestion pathway and the associated transport security and authentication mechanisms.</p>
+<div class="table wide"><table>
+<thead><tr><th>Source</th><th>Destination</th><th>Interface / Protocol</th><th>Transport Security</th><th>Authentication</th><th>Recommended Controls</th></tr></thead>
+<tbody>
+<tr><td>Clinical Scanners / PACS</td><td>XNAT</td><td>DICOM C-STORE</td><td>Network-level security, optionally DICOM TLS</td><td>Endpoint configuration using AE Title, host, and port, combined with network allow-listing</td><td>Restrict connections to approved clinical systems using firewall rules and network segmentation</td></tr>
+<tr><td>External Utilities</td><td>XNAT</td><td>XNAT REST Import APIs</td><td>HTTPS (TLS encryption)</td><td>Service account authentication or API tokens</td><td>Use a dedicated service account for ingestion and restrict API access to authorised hosts</td></tr>
+</tbody></table></div>
+
+<h3>Clinical Trial Processor (CTP)</h3>
+<figure class="diagram-img">
+  <a href="assets/RA-AIS-Ingest-CTP.png" target="_blank" rel="noopener"><img src="assets/RA-AIS-Ingest-CTP.png" alt="CTP ingestion" loading="lazy"></a>
+</figure>
+
+<p>Clinical imaging studies are generated and stored in <strong>clinical PACS systems</strong>, which act as the source of truth for patient imaging data. While XNAT provides native DICOM ingestion capabilities, AIS uses the <strong>Clinical Trial Processor (CTP)</strong> as a DICOM gateway between PACS and XNAT.</p>
+<p>CTP receives DICOM images from PACS, performs validation and de-identification in accordance with research governance requirements, applies routing and buffering logic, and reliably forwards the processed datasets to XNAT using a resilient store-and-forward model for research use.</p>
+<p>CTP supports receiving DICOM images via C-STORE and STOW-RS protocols.</p>
+<div class="ref"><p>Limitation: <a href="https://wiki.xnat.org/documentation/limits-of-dicom-anonymization-in-xnat">wiki.xnat.org/documentation/limits-of-dicom-anonymization-in-xnat</a></p></div>
+<p>At the clinical site, the Clinical Trial Processor (CTP) is typically deployed within the same network segment as the imaging scanner and PACS to enable efficient ingestion of imaging data. Where the clinical site is external to the AIS environment, a publicly accessible CTP endpoint is provided within the AIS platform to receive data from the clinical site CTP. In this model, the clinical CTP securely transfers imaging datasets to the AIS CTP over HTTPS.</p>
+
+<h4>Controlled Ingestion and Decoupling (CTP Receiver)</h4>
+<p>In the AIS ingestion architecture, imaging data is transferred from clinical environments into the platform using CTP-based workflows. While CTP Sender provides store-and-forward capability at the clinical boundary, introducing a CTP Receiver within AIS establishes a controlled ingestion layer before data reaches XNAT. This helps improve security, reliability, and operational control by separating external systems from the core platform.</p>
+<ul>
+<li>Introduces a controlled AIS-side ingestion boundary, decoupling clinical systems from XNAT</li>
+<li>Minimises proliferation of XNAT credentials by limiting their use within AIS</li>
+<li>Provides buffering and retry isolation so unstable network transfers do not directly impact XNAT</li>
+<li>Enables rate-controlled ingestion to protect XNAT from burst loads and retry storms</li>
+<li>Improves ingestion stability by staging data closer to the platform for more reliable transfer</li>
+</ul>
+
+<h4>Security and Authentication: CTP</h4>
+<p>The table below summarises the key interactions between clinical imaging systems, the CTP ingestion gateway, and the AIS platform, together with the protocols and security mechanisms used to protect these communications.</p>
+<div class="table wide"><table>
+<thead><tr><th>Source</th><th>Destination</th><th>Interface / Protocol</th><th>Transport Security</th><th>Authentication</th><th>Recommended Controls</th></tr></thead>
+<tbody>
+<tr><td>Clinical Scanners / PACS</td><td>CTP</td><td>DICOM C-STORE</td><td>Network-level security, optionally DICOM TLS</td><td>Endpoint configuration using AE Title, host, and port, combined with network allow-listing</td><td>Restrict connections to approved clinical systems using firewall rules and network segmentation</td></tr>
+<tr><td>Clinical Systems</td><td>CTP</td><td>DICOMweb STOW-RS</td><td>HTTPS (TLS encryption)</td><td>Client certificates or API authentication</td><td>Restrict endpoint access to approved systems and enable TLS for all external connections</td></tr>
+<tr><td>CTP</td><td>XNAT</td><td>XNAT REST Import APIs</td><td>HTTPS (TLS encryption)</td><td>Service account authentication or API tokens</td><td>Use a dedicated service account for ingestion and restrict API access to authorised hosts</td></tr>
+</tbody></table></div>
+
+<h3>Bulk Imaging Data Ingestion (XNAT-Ingest)</h3>
+<div class="ref"><p>Source: <a href="https://github.com/Australian-Imaging-Service/xnat-ingest">github.com/Australian-Imaging-Service/xnat-ingest</a></p></div>
+<figure class="diagram-img">
+  <a href="assets/RA-AIS-Ingest-XNAT-Ingest.png" target="_blank" rel="noopener"><img src="assets/RA-AIS-Ingest-XNAT-Ingest.png" alt="XNAT-Ingest" loading="lazy"></a>
+</figure>
+<p>In addition to real-time DICOM ingestion via Clinical Trial Processor (CTP), AIS provides a bulk ingestion pathway to support large clinical imaging datasets and non-DICOM image resources. This pathway is implemented through the XNAT-Ingest service.</p>
+<p>This pattern is intended for staged, high-volume, and file-based ingestion scenarios where direct HTTP-based upload or real-time routing is not suitable. Data is staged in storage, processed into structured sessions, optionally enriched or de-identified, and uploaded to XNAT using an efficient, batch-oriented mechanism.</p>
+<p>The bulk ingestion pattern provides the following capabilities:</p>
+<ul>
+<li>Ingestion from object storage (e.g. S3) or shared filesystem locations</li>
+<li>Support for large datasets and high file volumes</li>
+<li>Session-oriented organisation of imaging data</li>
+<li>Optional metadata enrichment and de-identification</li>
+<li>Efficient batch-based upload to XNAT</li>
+<li>Data integrity validation through checksum verification</li>
+<li>Idempotent processing to prevent duplicate ingestion</li>
+<li>Automation support for scheduled or continuous execution</li>
+</ul>
+<p>XNAT-Ingest is designed to support a broad range of imaging and research data formats. File type support is provided through the Arcana <em>FileFormats</em> framework (including <code>fileformats</code>, <code>fileformats-medimage</code>, and vendor-specific extensions such as <code>fileformats-vendor-siemens</code>).</p>
+
+<h4>Security and Authentication: XNAT-Ingest</h4>
+<p>XNAT-Ingest enables programmatic bulk upload of imaging datasets to AIS using XNAT REST APIs. The table below summarises the interaction between ingestion clients and the AIS platform, together with the associated transport security and authentication mechanisms.</p>
+<div class="table wide"><table>
+<thead><tr><th>Source</th><th>Destination</th><th>Interface / Protocol</th><th>Transport Security</th><th>Authentication</th><th>Recommended Controls</th></tr></thead>
+<tbody>
+<tr><td>XNAT-Ingest</td><td>XNAT</td><td>XNAT REST Import APIs</td><td>HTTPS (TLS encryption)</td><td>Service account authentication or API tokens</td><td>Use a dedicated service account for ingestion and restrict API access to authorised hosts</td></tr>
+</tbody></table></div>
+<div class="callout"><span class="label">Recommendation</span><ul>
+<li>Use XNAT-Ingest as the primary ingestion tool for non-DICOM data, with a strategic direction to expand its use across broader ingestion scenarios</li>
+<li>Suitable for bulk uploads, research datasets, and non-DICOM data</li></ul></div>
+
+<h3>Edge Data Capture and Ingestion</h3>
+<figure class="diagram-img">
+  <a href="assets/RA-AIS-Edge.png" target="_blank" rel="noopener"><img src="assets/RA-AIS-Edge.png" alt="Edge data capture (image)" loading="lazy"></a>
+</figure>
+
+<p><strong>Orthanc</strong> is a <strong>lightweight, open-source DICOM server</strong> used to receive, store, and manage medical imaging data (like CT, MRI, X-ray).</p>
+<p><strong>XNAT-Ingest</strong> is a Python-based ingestion pipeline, while <strong>Prefect</strong> is a Python-native workflow orchestrator. Prefect coordinates and manages the execution of XNAT-Ingest pipelines, providing scheduling, retries, and observability without being part of the ingestion process itself.</p>
+<div class="callout"><span class="label">Note</span><p>Orthanc acts as the DICOM ingestion endpoint, handling receipt and storage of imaging data. Processing logic resides within XNAT-Ingest, while Prefect orchestrates when and how these processing workflows are executed.</p></div>
+
+<h4>Tier Overview</h4>
+<div class="table wide"><table>
+<thead><tr><th></th><th>Tier 0: Native CTP</th><th>Tier 1: TinyRange Edge</th><th>Tier 2: Managed k0s Edge</th></tr></thead>
+<tbody>
+<tr><th>What</th><td>Existing RSNA CTP Java client</td><td>TinyRange VM running Orthanc + edge tools</td><td>k0s Kubernetes cluster with Orthanc + edge tools</td></tr>
+<tr><th>Runs on</th><td>Directly on host (Windows/Linux)</td><td>Any OS; single binary, bundles own VM</td><td>Linux bare metal or inside TinyRange VM</td></tr>
+<tr><th>Install requires</th><td>Java install, IT assistance</td><td>Copy one file, no admin needed</td><td>IT engagement, k0s binary install</td></tr>
+<tr><th>DICOM gateway</th><td>CTP</td><td>Orthanc</td><td>Orthanc (Helm chart)</td></tr>
+<tr><th>De-identification</th><td>CTP anonymiser</td><td>xnat-ingest</td><td>xnat-ingest</td></tr>
+<tr><th>Upload to XNAT</th><td>CTP HttpExportService</td><td>xnat-ingest</td><td>xnat-ingest</td></tr>
+<tr><th>Generic data</th><td>Not supported</td><td>Prefect + directory watcher</td><td>Prefect + directory watcher</td></tr>
+<tr><th>Fleet management</th><td>Manual</td><td>Phone-home agent (outbound HTTPS)</td><td>k0smotron (hosted control plane, outbound-only)</td></tr>
+<tr><th>Updates</th><td>Manual</td><td>VM image update / phone-home triggered</td><td>k0s Autopilot + Helm via GitOps</td></tr>
+<tr><th>Best for</th><td>Sites already running CTP</td><td>Hospital/restricted sites, Windows hosts</td><td>High-throughput sites with IT support</td></tr>
+<tr><th>Target sites</th><td>Legacy installs</td><td>PA Hospital, small LHD sites, new deployments</td><td>UQ CAI, USyd, Newcastle</td></tr>
+</tbody></table></div>
+</section>
+
+<section>
+<h2>Storage, Data Management and Exchange</h2>
+<p>XNAT uses PostgreSQL as its primary metadata store. All imaging metadata, project configuration, user permissions, and resource catalogues are stored in the PostgreSQL database. Imaging files are stored on the filesystem archive and referenced by path from the database.</p>
+<figure class="diagram-img">
+  <a href="assets/RA-AIS-Storage.png" target="_blank" rel="noopener"><img src="assets/RA-AIS-Storage.png" alt="Storage layers" loading="lazy"></a>
+</figure>
+
+<div class="callout"><span class="label">Recommendation</span>
+<p>For cloud deployments, AIS recommends using a managed PostgreSQL service to leverage built-in capabilities such as high availability, automated backups, patch management, and operational resilience.</p>
+<p>For deployments within a hospital or on-premises environments where managed cloud database services may not be available, AIS recommends deploying a cloud-native PostgreSQL instance within the Kubernetes cluster. This approach maintains consistency with the containerised platform architecture and enables simplified lifecycle management through Kubernetes orchestration.</p></div>
+<figure class="diagram-img">
+  <a href="assets/RA-AIS-Storage1.png" target="_blank" rel="noopener"><img src="assets/RA-AIS-Storage1.png" alt="Storage layers" loading="lazy"></a>
+</figure>
+
+<h3>Imaging Data Storage and Lifecycle</h3>
+<p>Imaging datasets generated by clinical imaging systems are stored within the platform archive and organised according to research projects, subjects, and imaging sessions. The storage architecture separates persistent imaging datasets from temporary ingestion and processing storage to preserve data integrity and support scalable analysis workflows.</p>
+<p>The archive storage layer provides persistent storage for imaging datasets and derived outputs associated with research projects. This storage must support scalable capacity, concurrent access by platform services, and POSIX-compatible filesystem semantics. In cloud deployments, shared network filesystems such as Amazon EFS are recommended.</p>
+<p>The ingestion storage layer provides temporary staging for newly received imaging datasets before integration into the archive.</p>
+<p>The processing storage layer provides workspace storage for analysis pipelines and interactive notebook environments. In AIS deployments, user and pipeline workspaces are provided through Kubernetes persistent volumes, with Longhorn PVCs recommended for temporary processing workloads.</p>
+<p>The temporary storage layer supports short-lived platform data such as caches and intermediate processing artefacts.</p>
+<p>Archived imaging datasets are treated as immutable research records. Analysis workflows operate on temporary processing workspaces and publish derived outputs back to the archive. Long-term lifecycle management of imaging datasets is implemented through storage infrastructure lifecycle policies, allowing inactive datasets to be migrated to lower-cost storage tiers while remaining accessible to the platform when required.</p>
+<div class="ref"><p>Reference: <a href="https://wiki.xnat.org/documentation/admin-ui-file-system-settings">wiki.xnat.org/documentation/admin-ui-file-system-settings</a></p></div>
+
+<h3>Collaboration and Data Exchange</h3>
+<figure class="diagram-img">
+  <a href="assets/RA-AIS-XSync.png" target="_blank" rel="noopener"><img src="assets/RA-AIS-XSync.png" alt="XSync" loading="lazy"></a>
+</figure>
+
+<p>XNAT supports synchronisation of projects and imaging datasets between independent XNAT deployments using the XSync framework. This capability enables collaborating organisations to replicate selected research datasets across multiple XNAT platforms.</p>
+<p>In this model, a source XNAT instance initiates a scheduled synchronisation job that pushes project metadata, subjects, experiments, and associated imaging resources to a destination XNAT instance. Communication between platforms occurs over secure HTTPS connections using XNAT REST APIs.</p>
+<p>Only projects explicitly configured for synchronisation are replicated. This allows participating organisations to selectively share datasets while maintaining local governance over their XNAT deployments.</p>
+<p>XSync is typically used to support multi-site research collaborations, federated imaging repositories, and data sharing between institutional XNAT platforms.</p>
+<p>AIS recommends that, when moving large imaging datasets across sites or networks, high-performance data transfer technologies <strong>should be considered</strong>. Common options used in research environments include Globus and IBM Aspera.</p>
+<p>These tools operate outside the XNAT platform and are typically used to transfer datasets to a staging or storage location, from which XNAT ingestion workflows such as CTP or bulk ingestion tools process the data.</p>
+<div class="ref"><p>Reference: <a href="https://wiki.xnat.org/documentation/connecting-xnat-to-other-xnats">wiki.xnat.org/documentation/connecting-xnat-to-other-xnats</a></p></div>
+</section>
+
+<section>
+<h2>Compute and Analysis Services</h2>
+<p>The AIS ecosystem provides integrated image analysis capabilities through the XNAT platform to support imaging research workflows. These capabilities enable researchers to process, analyse, and derive insights from imaging datasets managed within XNAT. Analysis workloads may be executed either as automated batch pipelines or through interactive analysis environments.</p>
+
+<h3>Batch Jobs (Non-Interactive)</h3>
+<figure class="diagram-img">
+  <a href="assets/RA-AIS-Jobs_Batch.png" target="_blank" rel="noopener"><img src="assets/RA-AIS-Jobs_Batch.png" alt="Batch Jobs" loading="lazy"></a>
+</figure>
+<p>Non-interactive analysis workloads are executed via the XNAT Container Service plugin, which enables containerised pipelines to be triggered by user actions or platform events. These workloads run as Kubernetes batch jobs on the AIS platform, with results written back to XNAT.</p>
+<p>AIS enhances this execution model by adopting <strong>ARCANA and Pydra as the preferred framework for defining and running analysis pipelines</strong>. Rather than executing ad-hoc containers, pipelines are defined using ARCANA, with Pydra managing workflow execution and task dependencies. These pipelines are packaged as container images and executed via the XNAT Container Service, ensuring consistency and reproducibility across the platform.</p>
+<p>To support container-based batch processing, the following components are required:</p>
+<ul>
+<li>A container execution environment capable of running workloads (e.g. Kubernetes)</li>
+<li>A container image registry to host approved analysis images</li>
+<li>Container definitions compatible with XNAT Container Service for pipeline execution</li>
+</ul>
+<p><strong>Arcana:</strong> A Python workflow framework that defines and manages end-to-end analysis pipelines, handling data retrieval, organisation, and storage across repositories such as XNAT.</p>
+<p><strong>Pydra:</strong> A lightweight Python-based workflow execution engine that orchestrates tasks, dependencies, and parallel execution for scalable and reproducible data processing pipelines.</p>
+<div class="callout"><span class="label">Recommendation</span>
+<p>AIS recommends standardising analysis pipelines using ARCANA and Pydra, with workflows packaged as versioned container images and executed via XNAT Container Service. Pipelines should be scheduled as Kubernetes jobs within a dedicated namespace to ensure isolation from core platform services. A centrally managed container image repository should be maintained to host and govern approved analysis pipelines.</p>
+<p>AIS recommends deploying XNAT within a Kubernetes-based container platform and using the same Kubernetes environment to execute batch processing workloads. Batch jobs should be scheduled as Kubernetes jobs and executed within a dedicated Kubernetes namespace to ensure operational isolation from core platform services. A shared container image repository accessible to the Kubernetes environment should be maintained to host approved analysis pipelines used by the platform.</p></div>
+<div class="ref">
+<p>Reference: <a href="https://wiki.xnat.org/container-service/">wiki.xnat.org/container-service</a></p>
+<p>Reference: <a href="https://wiki.xnat.org/documentation/adding-pipelines-to-your-project">wiki.xnat.org/documentation/adding-pipelines-to-your-project</a></p>
+<p>Reference: <a href="https://arcana.readthedocs.io/en/stable/index.html">Arcana v0.8.5</a></p>
+<p>Reference: <a href="https://nipype.github.io/pydra/index.html">Pydra v1.0a9</a></p></div>
+
+<h3>Interactive Jobs</h3>
+<figure class="diagram-img">
+  <a href="assets/RA-AIS-Jobs-Interactive.png" target="_blank" rel="noopener"><img src="assets/RA-AIS-Jobs-Interactive.png" alt="Interactive Jobs" loading="lazy"></a>
+</figure>
+
+<p>Interactive analysis capabilities are provided through integration between XNAT and JupyterHub. Researchers can launch interactive notebook environments from the XNAT user interface to explore and analyse imaging datasets managed by the platform.</p>
+<p>When an interactive session is initiated, XNAT communicates with JupyterHub to provision a dedicated notebook server for the user. JupyterHub manages authentication and session lifecycle, and spawns a containerised notebook environment for each user. Within this environment, researchers can open multiple notebooks and run analysis code while accessing datasets stored in XNAT and associated platform storage services.</p>
+<div class="callout"><span class="label">Recommendation</span>
+<p>AIS recommends deploying JupyterHub within the same Kubernetes environment that hosts the XNAT platform. Running both services within the same Kubernetes cluster simplifies integration between XNAT and JupyterHub, enables direct access to platform storage, and reduces operational complexity.</p>
+<p>Interactive notebook environments should be provisioned as containerised workloads within Kubernetes, with each user receiving an isolated notebook server instance. Where GPU-based analysis is required, GPU resources should be allocated to the user notebook workloads rather than to the JupyterHub service itself.</p></div>
+
+<h3>Analysis Services: MONAI Label</h3>
+<p>MONAI Label is an open-source AI-assisted image annotation framework used to create annotated datasets and develop machine learning models for medical imaging. It provides intelligent annotation capabilities that generate segmentation or annotation suggestions, helping users produce high-quality labelled datasets while reducing manual effort.</p>
+<p>Within the AIS platform, MONAI Label is deployed as a backend <strong>AI annotation service</strong> integrated with the XNAT imaging platform. It performs model inference and supports model training workflows on imaging datasets managed by XNAT.</p>
+
+<h4>MONAI Label Invocation Modes</h4>
+<p>MONAI Label services can be invoked through multiple interaction patterns depending on the analysis workflow and client application used. Within AIS, the MONAI Label server may be triggered through three primary integration modes:</p>
+<ol>
+<li><strong>Interactive annotation via the XNAT OHIF Viewer</strong>, where users request AI-assisted segmentation while reviewing imaging studies in the browser.</li>
+<li><strong>Interactive annotation from other supported client applications</strong>, such as <strong>3D Slicer, QuPath, or CVAT</strong>, typically accessed from researcher analysis environments (for example Jupyter workspaces).</li>
+<li><strong>Automated processing workflows</strong>, where MONAI Label inference is invoked programmatically through <strong>XNAT Container Service jobs</strong> to support event-driven or batch processing of imaging datasets.</li>
+</ol>
+<p>These invocation modes enable both <strong>interactive annotation workflows</strong> and <strong>automated AI analysis pipelines</strong> within the AIS imaging platform.</p>
+
+<h4>Interactive AI Inference (OHIF Viewer)</h4>
+<figure class="diagram-img">
+  <a href="assets/RA-AIS-Jobs-Interactive-OHIF.png" target="_blank" rel="noopener"><img src="assets/RA-AIS-Jobs-Interactive-OHIF.png" alt="OHIF Viewer" loading="lazy"></a>
+</figure>
+
+<p>In the AIS platform, researchers interact with imaging datasets through the <strong>OHIF viewer</strong>, which invokes MONAI Label to generate AI-assisted segmentation or annotation suggestions.</p>
+<p>MONAI Label retrieves imaging data from XNAT, loads the required model artefacts, performs inference, and returns the results to the viewer for review and refinement. Derived outputs are stored alongside the imaging dataset within the platform.</p>
+<p>By default, MONAI Label hosts both inference and training logic within the service. Where greater scale or specialised GPU resources are required, model execution may be externalised to dedicated inference services.</p>
+
+<h4>Automated AI Inference (XNAT-Triggered)</h4>
+<figure class="diagram-img">
+  <a href="assets/RA-AIS-Jobs-AI-Monai-XNAT-Gen.png" target="_blank" rel="noopener"><img src="assets/RA-AIS-Jobs-AI-Monai-XNAT-Gen.png" alt="Automated AI inference" loading="lazy"></a>
+</figure>
+
+<p>Automated inference enables AI analysis to be executed <strong>without direct user interaction</strong> as part of the imaging data ingestion workflow. When a new imaging dataset is received by XNAT (for example through DICOM ingestion pipelines), the platform generates an event indicating that new imaging data is available.</p>
+<p>This event triggers a processing workflow using the <strong>XNAT Container Service plugin</strong>, which launches a containerised batch job within the platform’s container environment. The job retrieves the required imaging data from XNAT and invokes the MONAI Label service to perform model inference.</p>
+<p>The MONAI Label service processes the dataset using the configured model and generates derived outputs such as segmentation masks or annotations. Once processing completes, the results are written back to the <strong>XNAT platform through its APIs</strong>, where they are stored alongside the original imaging dataset and can be accessed for further analysis or review.</p>
+<p>This event-driven approach enables <strong>scalable batch processing of newly ingested imaging studies</strong>, allowing AI models to be applied automatically as datasets arrive in the platform.</p>
+<div class="ref"><p>Source: <a href="https://github.com/Project-MONAI/MONAILabel/wiki/Deployment-Setup-in-a-Hospital-setting-using-Xnat-and-Monai-label">MONAI Label wiki: Deployment setup in a hospital setting using XNAT and MONAI Label</a></p></div>
+
+<h4>Automated AI Inference: MONAI with Arcana and Pydra <span class="status ok">RECOMMENDED</span></h4>
+<figure class="diagram-img">
+  <a href="assets/RA-AIS-Jobs-AI-Monai-Automated.png" target="_blank" rel="noopener"><img src="assets/RA-AIS-Jobs-AI-Monai-Automated.png" alt="Automated AI inference" loading="lazy"></a>
+</figure>
+
+<p>AIS supports automated AI inference through <strong>non-interactive batch workflows</strong> executed on the Kubernetes platform hosting XNAT. Imaging data is ingested into XNAT, which acts as the trigger point for launching containerised analysis jobs via the XNAT Container Service plugin. Each job runs as a self-contained container that packages <strong>MONAI for inference</strong>, <strong>ARCANA for pipeline definition and data handling</strong>, and <strong>Pydra for workflow execution</strong>.</p>
+<p>When new imaging data is received, XNAT initiates a batch job that retrieves the required input data, performs preprocessing and MONAI-based inference within the same container, and writes the derived outputs back to XNAT alongside the source dataset. Model artefacts and supporting files are mounted from platform storage, while persistent and workspace storage are used for runtime processing.</p>
+<p>By bundling inference into the analysis container rather than invoking a separate shared inference service, AIS improves reproducibility, portability, and operational control. Kubernetes provides the execution environment and scheduling controls, while XNAT remains the system of record for source data and derived results.</p>
+
+<h4>Interactive annotation from other supported client applications</h4>
+<figure class="diagram-img">
+  <a href="assets/RA-AIS-Jobs-AI-Monai-supported.png" target="_blank" rel="noopener"><img src="assets/RA-AIS-Jobs-AI-Monai-supported.png" alt="Monai Label Inference" loading="lazy"></a>
+</figure>
+<p>In addition to browser-based annotation through the OHIF viewer, MONAI Label can also be accessed from specialised client applications such as <strong>3D Slicer, QuPath, or CVAT</strong>. These tools support advanced annotation and analysis workflows that may not be available through browser-based viewers.</p>
+<p>Within the AIS platform, these clients can be provided through <strong>researcher workspaces provisioned as Jupyter-based environments</strong>. In this deployment pattern, the required viewer applications and MONAI Label components may be bundled into the container image used to launch the notebook workspace. This allows researchers to start interactive annotation sessions directly within their analysis environment without requiring separate platform services for each viewer.</p>
+<p>The client applications interact with the MONAI Label service to request model inference and receive AI-assisted annotation results. Imaging data is retrieved from platform-managed storage services or from XNAT, and any derived annotations or outputs can be persisted back to the platform.</p>
+<p>This approach enables flexible support for advanced annotation and model development workflows while maintaining MONAI Label as a shared AI service within the AIS platform.</p>
+
+<h4>Additional information on MONAI Label</h4>
+<div class="ref"><p>Source: <a href="https://developer.nvidia.com/blog/how-monai-fuels-open-research-for-medical-ai-workflows/">NVIDIA: How MONAI fuels open research for medical AI workflows</a></p></div>
+<figure class="diagram-img">
+  <a href="assets/RA-AIS-Jobs-AI-Monai-3dslicer.png" target="_blank" rel="noopener"><img src="assets/RA-AIS-Jobs-AI-Monai-3dslicer.png" alt="Monai" loading="lazy"></a>
+</figure>
+<div class="ref"><p>Source: <a href="https://github.com/Project-MONAI/MONAILabel/wiki/Integration-with-Xnat-Research-PACS">MONAI Label wiki: Integration with XNAT Research PACS</a></p></div>
+<figure class="diagram-img">
+  <a href="assets/RA-AIS-Jobs-AI-Monai-server.png" target="_blank" rel="noopener"><img src="assets/RA-AIS-Jobs-AI-Monai-server.png" alt="Automated AI inference" loading="lazy"></a>
+</figure>
+</section>
+
+<section>
+<h2>Collaborative AI and Federated Learning</h2>
+<h3>NVFlare</h3>
+<p>NVFlare is an open-source federated learning platform by NVIDIA that enables multiple sites to collaboratively train a shared AI model without exchanging raw data. In the AIS context, NVFlare supports distributed model training across participating nodes, ensuring that sensitive imaging data remains local while only model updates are shared, thereby aligning with privacy, security, and governance requirements.</p>
+<figure class="diagram-img">
+  <a href="assets/RA-AIS-AI-federated-learning-nvflare.png" target="_blank" rel="noopener"><img src="assets/RA-AIS-AI-federated-learning-nvflare.png" alt="Federated Learning" loading="lazy"></a>
+</figure>
+<h4>AIS Multisite: Federated Learning Model</h4>
+<figure class="diagram-img">
+  <a href="assets/RA-AIS-AI-federated-model-nvflare.png" target="_blank" rel="noopener"><img src="assets/RA-AIS-AI-federated-model-nvflare.png" alt="Federated Learning" loading="lazy"></a>
+</figure>
+<p>In a federated learning deployment, each participating AIS site hosts a local federated training client that accesses approved local imaging datasets and executes model training within the site boundary. A central federated learning server coordinates training rounds, aggregates model updates received from participating sites, and redistributes the updated global model. Raw imaging data remains within each AIS site; only model updates and training metadata are exchanged across sites.</p>
+<figure class="diagram-img">
+  <a href="assets/RA-AIS-Federation.png" target="_blank" rel="noopener"><img src="assets/RA-AIS-Federation.png" alt="Federated Learning" loading="lazy"></a>
+</figure>
+</section>
+
+<section>
+<h2 data-nav="Messaging and Asynchronous Processing">Messaging and Asynchronous Processing <span class="status pending">Pending</span></h2>
+<div class="ref"><p><a href="https://wiki.xnat.org/xnat-tools/distributed-events-plugin">wiki.xnat.org/xnat-tools/distributed-events-plugin</a></p></div>
+</section>
+
+<section>
+<h2>Security Architecture</h2>
+<figure class="diagram-img">
+  <a href="assets/RA-AIS-Security.png" target="_blank" rel="noopener"><img src="assets/RA-AIS-Security.png" alt="Security" loading="lazy"></a>
+</figure>
+
+<h3>Network Security (Calico / Cilium)</h3>
+<p>The AIS platform will adopt <strong>Project Calico</strong> to provide pod-level networking and enforce network segmentation across all clusters. A <strong>default-deny security posture</strong> will be implemented, where all inter-workload traffic is blocked unless explicitly permitted through policy. Network policies based on <strong>namespaces, labels, ports, and protocols</strong> will enable fine-grained control of communication paths and prevent unauthorised lateral movement.</p>
+<p>These controls will extend across <strong>cluster-to-cluster communication</strong>, enabling secure connectivity between distributed AIS nodes. Where required, Calico capabilities can also be applied to <strong>virtual machines and bare-metal hosts</strong>, ensuring consistent network segmentation across Kubernetes and non-Kubernetes environments, including edge deployments.</p>
+<div class="callout"><span class="label">Recommendation</span><ul>
+<li><strong>AIS recommends adopting Calico as the primary network controller</strong> to support hybrid Linux/Windows Kubernetes environments and consistent policy enforcement</li>
+<li>While <strong>Cilium offers promising eBPF capabilities</strong>, evaluate it for <strong>Linux-only environments or future adoption</strong></li></ul></div>
+
+<h3>Service-to-Service Security (Istio)</h3>
+<p>The AIS platform secures all service-to-service communication using a service mesh implemented with <strong>Istio</strong>, enabling identity-driven, zero-trust interactions across core and edge environments. All traffic between services is mediated through sidecar proxies and encrypted using mutual TLS (mTLS), with each workload assigned a unique SPIFFE-based identity for authentication. Access between services is controlled through policy-based authorisation, ensuring that only explicitly permitted communication paths are allowed. This approach removes reliance on network location or IP-based trust and provides consistent, secure communication across distributed AIS deployments.</p>
+<p>These capabilities extend to both cluster-to-cluster and edge-to-cluster communication, where services interact securely using mTLS through controlled gateways. Istio, in combination with SPIFFE-based workload identity, enables consistent authentication, encryption, and policy enforcement across AIS nodes, edge environments, and heterogeneous compute platforms including Kubernetes, virtual machines, and bare-metal hosts.</p>
+
+<h4>Design Decision: Adoption of Istio Service Mesh for AIS</h4>
+<div class="table wide"><table>
+<thead><tr><th>Category</th><th>Requirement / Driver</th><th>Why it Matters for AIS</th><th>How Istio Addresses It</th><th>How Alternatives Fare</th><th>Implications / Notes</th></tr></thead>
+<tbody>
+<tr><th>Security &amp; Identity</th><td>Secure service-to-service communication and consistent identity</td><td>AIS services (XNAT, CTP, ingestion pipelines) exchange sensitive imaging and research data and require a consistent zero-trust model</td><td>Istio provides <strong>automatic mTLS</strong>, workload identity, and policy enforcement across services</td><td>Linkerd: simpler mTLS, limited policy control; Consul: strong but more suited to hybrid environments; No mesh: relies on inconsistent app-level TLS</td><td>Establishes a <strong>platform-wide zero-trust security baseline</strong></td></tr>
+<tr><th>Traffic Management &amp; Workload Isolation</th><td>Separation of interactive and high-volume ingestion traffic</td><td>AIS must support <strong>data-intensive ingestion (CTP, XNAT-Ingest)</strong> alongside user-facing workloads without contention</td><td>Istio enables <strong>fine-grained routing (host/path/subset)</strong> and supports separation of ingestion and application traffic paths</td><td>Linkerd: limited routing; Consul: moderate; No mesh: coarse ingress-based routing only</td><td>Enables <strong>controlled ingestion pathways and workload isolation</strong></td></tr>
+<tr><th>Observability &amp; Operations</th><td>End-to-end visibility of service interactions</td><td>AIS workflows span multiple services; debugging and optimisation require visibility into traffic flow</td><td>Istio provides <strong>metrics, tracing, and service topology (Kiali/Jaeger)</strong></td><td>Linkerd: lightweight metrics, limited tracing; Consul: moderate; No mesh: fragmented observability</td><td>Improves <strong>troubleshooting and operational insight</strong></td></tr>
+<tr><th>Resilience &amp; Change Management</th><td>Reliable service communication and safe rollout of changes</td><td>Platform services must remain stable and support controlled upgrades</td><td>Istio supports <strong>retries, timeouts, circuit breaking, and traffic splitting (canary)</strong></td><td>Linkerd: basic resilience; Consul: moderate; No mesh: handled at application level</td><td>Improves <strong>platform reliability and controlled deployment</strong></td></tr>
+<tr><th>Platform Governance &amp; Extensibility</th><td>Centralised control and future scalability (including edge integration)</td><td>AIS includes heterogeneous services and evolving architecture, including edge-connected ingestion</td><td>Istio provides a <strong>centralised control plane for traffic, security, and ingress/egress</strong>, supporting future extension to edge and external systems</td><td>Linkerd: simpler but limited extensibility; Consul: better for hybrid but less K8s-native; No mesh: high operational overhead</td><td>Enables a <strong>scalable, governed platform architecture</strong></td></tr>
+</tbody></table></div>
+<div class="callout"><span class="label">Recommendation</span><p>AIS recommends adopting Istio as the service mesh to provide a unified control plane for secure service communication, traffic management, observability, and policy enforcement. It enables AIS to support both high-volume ingestion workloads and interactive applications within a consistent, secure, and scalable architecture, while providing capabilities not achievable through simpler service mesh or non-mesh approaches.</p></div>
+<div class="callout info"><span class="label">Looking ahead</span><p>While Istio is selected as the current service mesh for AIS, the architecture remains open to incorporating alternative service mesh technologies such as Cilium as they mature. Cilium’s eBPF-based approach offers potential advantages in performance and operational simplicity, and AIS will actively monitor its evolution to determine suitability for future integration or replacement patterns.</p></div>
+
+<h3>Identity &amp; Access (Keycloak, SPIFFE)</h3>
+<p>AIS adopts a layered identity model separating <strong>human identity</strong> from <strong>workload identity</strong>.</p>
+<p><strong>Human identity</strong> is managed through Keycloak, which acts as the central identity provider for AIS. Keycloak is federated with Australian Access Federation, enabling users to authenticate using institutional credentials. Users are redirected to AAF for login, while Keycloak issues OIDC tokens for access to AIS applications such as XNAT.</p>
+<p><strong>Workload identity</strong> refers to the cryptographic identity assigned to services and platform components (e.g. XNAT services, XNAT-Ingest receivers, CTP components, JupyterHub, and processing pipelines). This is implemented using SPIFFE-compliant identities provided by Istio, which assigns identities to workloads and enforces mutual TLS (mTLS) for secure service-to-service communication within the platform.</p>
+<p>Edge components running on managed hosts (e.g. CTP senders or ingestion nodes) may be onboarded into the Istio mesh to obtain workload identity and communicate securely with in-cluster services. Vendor-controlled devices (e.g. scanners) are authenticated at the platform boundary using alternative mechanisms such as client certificates.</p>
+<p>This separation enables secure authentication, identity-based access control, and a zero-trust architecture across AIS.</p>
+
+<h3>Data Protection</h3>
+<p>AIS protects data across its lifecycle by securing <strong>data in transit</strong> and <strong>data at rest</strong>.</p>
+<p><strong>Data in transit</strong> is protected using TLS for external communication and mTLS within the platform, ensuring authenticated and encrypted service-to-service communication.</p>
+<p><strong>Data at rest</strong> is secured using encryption provided by the underlying storage platforms (e.g. object and file storage), with access controlled through platform services rather than direct storage access.</p>
+<p>Access to imaging data is enforced through application-layer controls (e.g. XNAT), ensuring only authorised users and services can retrieve or process data. Temporary processing environments operate on controlled copies of data, with outputs written back to managed storage to maintain integrity and traceability.</p>
+
+<h3>Edge Security</h3>
+<p>External systems, including hospital networks, scanners, and edge gateways, connect to AIS through controlled and secure entry points. Edge connectivity is established using secure protocols such as TLS or mTLS, with optional integration into the service mesh for edge-hosted workloads. External sources are represented as distinct identities, enabling source-level authentication and authorisation. Ingestion pathways are restricted to approved services, ensuring that only validated and governed data flows into the platform.</p>
+<p>Together, network and service mesh controls provide a consistent, identity-driven security model across AIS clusters, edge environments, and distributed nodes.</p>
+<figure class="diagram-img">
+  <a href="assets/Mesh.svg" target="_blank" rel="noopener"><img src="assets/Mesh.svg" alt="Primary and remote clusters on separate networks (image)" loading="lazy"></a>
+</figure>
+<div class="ref"><p>Source: <a href="https://istio.io/latest/docs/setup/install/multicluster/primary-remote_multi-network/">istio.io: Install primary-remote on different networks</a></p></div>
+</section>
+
+<section>
+<h2>Monitoring and Observability</h2>
+<figure class="diagram-img">
+  <a href="assets/RA-AIS-Monitoring-Observability.png" target="_blank" rel="noopener"><img src="assets/RA-AIS-Monitoring-Observability.png" alt="Monitoring and Observability" loading="lazy"></a>
+</figure>
+
+<p>AIS adopts a modern observability approach based on the three pillars: <strong>metrics, logs, and traces</strong>, providing comprehensive visibility into system behaviour and performance. While <strong>monitoring</strong> focuses on predefined metrics and known conditions, <strong>observability</strong> enables explorative investigation and root cause analysis across distributed systems.</p>
+
+<h3>Observability Layers in AIS</h3>
+<p>Observability within AIS operates across two complementary layers:</p>
+<ul>
+<li><strong>Service Mesh Observability.</strong> Provides visibility into service-to-service communication using Istio telemetry. This includes traffic flow, latency, error rates, and security (mTLS) between services.</li>
+<li><strong>AIS Platform Observability.</strong> Focuses on workload-level visibility across ingestion, processing, storage, and analysis services (e.g., XNAT, pipelines, AI workloads), including logs, metrics, and traces generated by these components.</li>
+</ul>
+
+<h3>Observability Pipelines</h3>
+<p>To achieve observability across both the service mesh and platform layers, AIS should implement dedicated telemetry pipelines for metrics, logs, and traces. These pipelines should collect telemetry from ingestion services, XNAT core, and compute workloads, and route it to scalable backends for storage, correlation, and analysis.</p>
+<h4>Metrics Pipeline</h4>
+<ul>
+<li>Metrics are <strong>scraped by Prometheus</strong> using a pull-based model</li>
+<li>Prometheus optionally performs <strong>remote write to Mimir</strong> for long-term storage</li>
+<li>Mimir persists metrics in <strong>object storage (S3 / Ceph / MinIO)</strong></li>
+</ul>
+<h4>Logs Pipeline</h4>
+<ul>
+<li>Logs are collected via <strong>Fluent Bit DaemonSet</strong> at node level</li>
+<li>Logs are forwarded to <strong>Loki</strong></li>
+<li>Loki stores log data in <strong>object storage</strong></li>
+</ul>
+<h4>Traces Pipeline</h4>
+<ul>
+<li>Traces are generated by:
+  <ul><li><strong>Istio Envoy sidecars</strong></li><li><strong>Application instrumentation (OTel SDK)</strong></li></ul></li>
+<li>Traces are processed via <strong>OpenTelemetry Collector (optional but recommended)</strong></li>
+<li>Traces are stored in <strong>Tempo</strong>, backed by object storage</li>
+</ul>
+
+<h3>Observability Backends</h3>
+<ul>
+<li><strong>Mimir</strong>: metrics storage (Prometheus-compatible, scalable)</li>
+<li><strong>Loki</strong>: log aggregation and storage</li>
+<li><strong>Tempo</strong>: distributed tracing backend</li>
+</ul>
+<p>All backends utilise <strong>shared object storage</strong> for scalability and cost efficiency.</p>
+
+<h3>Visualisation and Analysis</h3>
+<ul>
+<li><strong>Grafana</strong>
+  <ul><li>Unified dashboards for logs, metrics, and traces</li><li>Correlation across observability signals</li></ul></li>
+<li><strong>Kiali</strong>
+  <ul><li>Service mesh observability (Istio)</li><li>Visualises service topology and traffic behaviour</li><li>Uses Prometheus metrics and optional trace integration</li></ul></li>
+<li><strong>OpenCost</strong>
+  <ul><li>Provides cost visibility based on Prometheus metrics</li><li>Enables cost allocation per project, namespace, or workload</li></ul></li>
+</ul>
+<div class="callout"><span class="label">Recommendation</span>
+<p>AIS recommends <strong>Prometheus</strong> for metrics collection and alerting, complemented by <strong>Mimir</strong> for scalable, long-term metrics storage. For logging, <strong>Loki</strong> is recommended for aggregation, storage, and querying, with <strong>Fluent Bit</strong> as the default Kubernetes log collector. For distributed tracing, <strong>Tempo</strong> is recommended, with the <strong>OpenTelemetry Collector</strong> serving as the primary trace ingestion and processing pipeline. <strong>Grafana</strong> provides a unified visualisation layer across metrics, logs, and traces.</p>
+<p>AIS recommends <strong>Loki as the default logging backend</strong> for Kubernetes-based deployments due to its lower operational overhead and strong alignment with the Grafana observability stack. <strong>Elasticsearch or OpenSearch</strong> may be considered where advanced full-text search, richer analytics, or broader enterprise logging capabilities are required, noting the additional operational complexity.</p>
+<p>AIS requires a <strong>durable object storage service</strong> accessible to Loki, Mimir, and Tempo, providing a common persistence layer for all observability data. Cloud deployments may leverage native object storage services, while on-premises deployments should use an S3-compatible solution such as <strong>MinIO</strong> or <strong>Ceph Object Gateway</strong>.</p></div>
+</section>
+
+<section>
+<h2>Disaster Recovery</h2>
+<p>At the core of AIS are medical imaging data and platform metadata. Provided these are securely stored, highly available, and recoverable, the AIS platform itself can be rebuilt with minimal impact using DevSecOps pipelines.</p>
+<p>AIS deployments should therefore prioritise:</p>
+<ul>
+<li>Highly available PostgreSQL (metadata store) with backup and point-in-time recovery</li>
+<li>Durable, redundant storage for imaging data (zone- or region-redundant as appropriate)</li>
+</ul>
+<p>The platform components (XNAT, CTP, JupyterHub, etc.) should be treated as reproducible and ephemeral, enabling rapid recovery through automated redeployment.</p>
+<div class="callout"><span class="label">AIS recommends</span><ul>
+<li>Deploy AIS across multiple failure domains (e.g., availability zones) using fault-tolerant Kubernetes clusters</li>
+<li>Use DevSecOps pipelines to enable full platform rebuild and recovery</li>
+<li>Ensure the PostgreSQL metadata store is highly available, with backup and point-in-time recovery (PITR)</li>
+<li>Store imaging data on resilient, redundant storage, using zone- or region-level redundancy as appropriate</li>
+<li>Implement backup, lifecycle, and rehydration strategies to support long-term data durability and access</li>
+<li>Optionally support cross-region disaster recovery for critical or high-value deployments</li></ul></div>
+</section>
+
+<section>
+<h2>AIS Node Capability and Deployment Model</h2>
+<p>Defines the capabilities, infrastructure, and standardised platform components required to deploy and operate an AIS node consistently across institutions.</p>
+<figure class="diagram-img">
+  <a href="assets/RA-AIS-Node-Deployment.png" target="_blank" rel="noopener"><img src="assets/RA-AIS-Node-Deployment.png" alt="Node deployment" loading="lazy"></a>
+</figure>
+
+</section>
+
+<p class="backtop"><a href="#top">Back to top</a></p>
+</div>
+</main>
+
+<script>
+(function(){
+  var SRC = "https://sydneyuni.atlassian.net/wiki/spaces/IA/pages/4360732673/RA+-+Australian+Imaging+Service";
+
+  // Diagram placeholders
+  document.querySelectorAll('figure.diagram').forEach(function(f){
+    var name = f.getAttribute('data-diagram');
+    f.innerHTML = '<svg width="40" height="40" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="6" width="14" height="10" rx="1.5"/><rect x="23" y="6" width="14" height="10" rx="1.5"/><rect x="13" y="25" width="14" height="10" rx="1.5"/><path d="M10 16v4h20v-4M20 20v5"/></svg>' +
+      '<figcaption><b>' + name + '</b>Diagram not embedded. <a href="' + SRC + '">View it on the Confluence page</a>.</figcaption>';
+  });
+
+
+  // Diagram sizing: pass each image's own dimensions to the CSS, flag frames that scroll
+  var figImgs = Array.prototype.slice.call(document.querySelectorAll('figure.diagram-img img'));
+  function checkScroll(img){
+    var a = img.parentElement, f = img.closest('figure');
+    f.classList.toggle('scrolls', a.scrollWidth > a.clientWidth + 2);
+  }
+  function sizeImg(img){
+    var isSvg = /\.svg(\?|#|$)/i.test(img.getAttribute('src') || '');
+    if (img.naturalWidth && img.naturalHeight){
+      // SVGs are vector, so no size cap; their reported size is only the aspect ratio
+      img.style.setProperty('--nw', isSvg ? 100000 : img.naturalWidth);
+      img.style.setProperty('--nh', isSvg ? 100000 : img.naturalHeight);
+      img.style.setProperty('--r', img.naturalWidth / img.naturalHeight);
+    }
+    checkScroll(img);
+  }
+  figImgs.forEach(function(img){
+    var f = img.closest('figure');
+    if (!f.querySelector('.fig-hint')){
+      var hint = document.createElement('div'); hint.className = 'fig-hint';
+      hint.textContent = 'Scroll sideways to see the whole diagram, or tap it to open full screen.';
+      f.appendChild(hint);
+    }
+    if (img.complete && img.naturalWidth) sizeImg(img); else img.addEventListener('load', function(){ sizeImg(img); });
+  });
+  var rz = false;
+  window.addEventListener('resize', function(){ if(!rz){ rz = true; requestAnimationFrame(function(){ figImgs.forEach(checkScroll); rz = false; }); } });
+
+  // Full-screen viewer
+  var lb = document.createElement('div'); lb.className = 'lightbox fit'; lb.setAttribute('role','dialog'); lb.setAttribute('aria-modal','true');
+  lb.innerHTML = '<div class="lightbox-bar"><span></span><button type="button" class="lb-zoom">Actual size</button>' +
+    '<a class="lb-new" target="_blank" rel="noopener">Open in new tab</a><button type="button" class="lb-close">Close</button></div><img alt="">';
+  document.body.appendChild(lb);
+  var lbImg = lb.querySelector('img'), lbTitle = lb.querySelector('span'), lbZoom = lb.querySelector('.lb-zoom'), lbNew = lb.querySelector('.lb-new'), lbLast = null;
+  function openLb(src, alt, from){
+    lbLast = from; lbImg.src = src; lbImg.alt = alt; lbTitle.textContent = alt; lbNew.href = src;
+    // Large screens open fitted; phones open at actual size so the diagram is readable and can be panned or pinch-zoomed
+    var fit = window.innerWidth >= 900;
+    lb.classList.toggle('fit', fit); lb.classList.toggle('svg', /\.svg(\?|#|$)/i.test(src)); lbZoom.textContent = fit ? 'Actual size' : 'Fit to screen';
+    lb.classList.add('open'); document.body.classList.add('lb-open'); lb.scrollTop = 0;
+    lb.querySelector('.lb-close').focus();
+  }
+  function closeLb(){ lb.classList.remove('open'); document.body.classList.remove('lb-open'); if (lbLast) lbLast.focus(); }
+  lbZoom.addEventListener('click', function(){ var fit = lb.classList.toggle('fit'); lbZoom.textContent = fit ? 'Actual size' : 'Fit to screen'; });
+  lb.querySelector('.lb-close').addEventListener('click', closeLb);
+  lb.addEventListener('click', function(e){ if (e.target === lb) closeLb(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && lb.classList.contains('open')) closeLb(); });
+  document.querySelectorAll('figure.diagram-img > a').forEach(function(a){
+    a.addEventListener('click', function(e){
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+      var img = a.querySelector('img'); if (!img) return;
+      e.preventDefault(); openLb(a.getAttribute('href'), img.getAttribute('alt') || '', a);
+    });
+  });
+
+  // Build ids and nav
+  function slug(t){return t.toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
+  var used = {};
+  function uid(t){var s=slug(t)||'section',k=s,i=2;while(used[k]){k=s+'-'+i++;}used[k]=1;return k;}
+  function label(h){return h.getAttribute('data-nav') || h.textContent.replace(/\s+/g,' ').trim();}
+
+  var toc = document.getElementById('toc');
+  var ol = document.createElement('ol');
+  var heads = [];
+  var n = 0, current = null;
+  document.querySelectorAll('main h2, main h3').forEach(function(h){
+    var text = label(h);
+    h.id = uid(text);
+    heads.push(h);
+    var li = document.createElement('li');
+    var a = document.createElement('a');
+    a.href = '#' + h.id;
+    if (h.tagName === 'H2'){
+      n++;
+      var num = (n<10?'0':'') + n;
+      var span = document.createElement('span'); span.className='n'; span.textContent = num;
+      h.insertBefore(span, h.firstChild);
+      a.innerHTML = '<span class="n">'+num+'</span><span></span>';
+      a.lastChild.textContent = text;
+      li.appendChild(a); ol.appendChild(li);
+      current = {li:li, sub:null};
+    } else {
+      a.textContent = text;
+      if (!current.sub){ current.sub = document.createElement('ol'); current.li.appendChild(current.sub); }
+      li.appendChild(a); current.sub.appendChild(li);
+    }
+    h._link = a;
+  });
+  toc.appendChild(ol);
+
+  // Scrollspy
+  var activeLink = null;
+  function setActive(h){
+    if (!h || h._link === activeLink) return;
+    if (activeLink) activeLink.classList.remove('active');
+    activeLink = h._link; activeLink.classList.add('active');
+    toc.querySelectorAll(':scope > ol > li').forEach(function(li){ li.classList.remove('open'); });
+    var p = activeLink.parentElement; while (p && p.parentElement !== ol) p = p.parentElement;
+    if (p) p.classList.add('open');
+    var r = activeLink.getBoundingClientRect(), tr = toc.getBoundingClientRect();
+    if (r.top < tr.top || r.bottom > tr.bottom) activeLink.scrollIntoView({block:'nearest'});
+    document.getElementById('barTitle').textContent = label(h);
+  }
+  function onScroll(){
+    var y = 120, pick = heads[0];
+    for (var i=0;i<heads.length;i++){ if (heads[i].getBoundingClientRect().top <= y) pick = heads[i]; else break; }
+    setActive(pick);
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function(){ if(!ticking){ticking=true;requestAnimationFrame(function(){onScroll();ticking=false;});} }, {passive:true});
+  onScroll();
+
+  // Mobile menu
+  var btn = document.getElementById('menuBtn');
+  function setNav(open){ document.body.classList.toggle('nav-open', open); btn.setAttribute('aria-expanded', open); }
+  btn.addEventListener('click', function(){ setNav(!document.body.classList.contains('nav-open')); });
+  document.getElementById('scrim').addEventListener('click', function(){ setNav(false); });
+  toc.addEventListener('click', function(e){ if (e.target.closest('a')) setNav(false); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') setNav(false); });
+
+  // Filter
+  var q = document.getElementById('q');
+  q.addEventListener('input', function(){
+    var term = q.value.trim().toLowerCase();
+    toc.classList.toggle('filtering', !!term);
+    ol.querySelectorAll(':scope > li').forEach(function(top){
+      var topHit = !term || top.firstChild.textContent.toLowerCase().indexOf(term) > -1;
+      var anySub = false;
+      top.querySelectorAll('ol li').forEach(function(s){
+        var hit = !term || topHit || s.textContent.toLowerCase().indexOf(term) > -1;
+        s.classList.toggle('hide', !hit); if (hit) anySub = true;
+      });
+      top.classList.toggle('hide', !(topHit || anySub));
+    });
+  });
+})();
+</script>
+</body>
+</html>

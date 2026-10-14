@@ -5,6 +5,11 @@ caches:
   images:
     dir: :cacheDir/images
 
+sectionPagesMenu: main
+security:
+  allowContent:
+    - '! ^text/org$'
+
 module:
   hugoVersion:
     extended: true
@@ -16,7 +21,15 @@ module:
       disabled: false
       mounts:
         - source: docs/Deployment
-          target: "content/docs/Technical Documentation/AIS Node/XNAT"
+          target: "content/docs/Deployment"
+        - source: docs/Development
+          target: "content/docs/Development"
+        - source: docs/Operations
+          target: "content/docs/Operations"
+        - source: docs/Policy
+          target: "content/docs/Policy"
+        - source: docs/howto
+          target: "content/docs/How To"
     - path: "github.com/Australian-Imaging-Service/pipelines"
       disabled: false
       mounts:
