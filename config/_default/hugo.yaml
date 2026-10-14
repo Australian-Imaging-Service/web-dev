@@ -349,11 +349,6 @@ menu:
       url: 'support/contact_us'
       parent: support
 
-#markup:
-#  goldmark:
-#    renderer:
-#      unsafe: true
-
 taxonomies:
   category: Categories
   tag: Tags
