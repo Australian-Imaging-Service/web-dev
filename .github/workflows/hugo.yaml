@@ -62,7 +62,7 @@ jobs:
         run: |
           shopt -s nullglob
           for p in patches/*.patch; do
-            patch < "$p" || true
+            patch -p0 < "$p" || true
           done
           shopt -u nullglob
       - name: Setup Pages
