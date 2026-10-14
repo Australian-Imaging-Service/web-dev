@@ -1,6 +1,5 @@
 ---
 title: Reference Architecture
-categories: ["Documentation"]
 tags: ["confluence", "jugo"]
 ---
 
