@@ -193,17 +193,18 @@ params:
   mono_font: "Fira Code" # Default is System font
 
   footer:
-    copyright: "© :YEAR: Lotus Labs. Built with [**Lotus Docs**](https://github.com/colinwilson/lotusdocs)"
+    copyright: "© 2026 Australian Imaging Service. All rights reserved."
     # version: true # includes git commit info
 
   social:
-    github: ""        # YOUR_GITHUB_ID or YOUR_GITHUB_URL
-    twitter: ""       # YOUR_TWITTER_ID
+    #github: "https://github.com/Australian-Imaging-Service"        # YOUR_GITHUB_ID or YOUR_GITHUB_URL
+    github: "Australian-Imaging-Service"        # YOUR_GITHUB_ID or YOUR_GITHUB_URL
+    # twitter: ""       # YOUR_TWITTER_ID
     # instagram: "colinwilson"     # YOUR_INSTAGRAM_ID
     # rss: true                    # show rss icon with link
 
   docs: # Parameters for the /docs 'template'
-    title          : "Lotus Docs Example Site"           # default html title for documentation pages/sections
+    title          : "Documentation"           # default html title for documentation pages/sections
     darkMode       : true                                # enable dark mode option? default false
 
     prism          : true                                # enable syntax highlighting via Prism
@@ -321,8 +322,20 @@ menu:
     - name: 'Facilities'
       url: 'docs/facilities'
       parent: docs
-    - name: 'Technical Documentation'
-      url: 'docs/technical-documentation'
+    - name: 'Node Administration'
+      url: 'docs/node-administraton'
+      parent: docs
+    - name: 'Deployment'
+      url: 'docs/deployment'
+      parent: docs
+    - name: 'Development'
+      url: 'docs/development'
+      parent: docs
+    - name: 'Operations'
+      url: 'docs/operations'
+      parent: docs
+    - name: 'Architecture'
+      url: 'docs/architecture'
       parent: docs
     - identifier: about
       name: About
