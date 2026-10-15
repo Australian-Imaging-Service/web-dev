@@ -36,7 +36,7 @@ module:
       disabled: false
       mounts:
         - source: docs
-          target: "content/docs/Technical Documentation/pipelines"
+          target: "content/docs/facilities"
 
 markup:
   tableOfContents:
