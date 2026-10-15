@@ -1,4 +1,5 @@
-name: github pages
+# Do not alter name. It is used in other workflows to trigger the site build.
+name: Deploy Hugo site to Pages
 
 on:
   # Runs on pushes targeting the default branch
