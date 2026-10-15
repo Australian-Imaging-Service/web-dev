@@ -5,6 +5,8 @@ caches:
   images:
     dir: :cacheDir/images
 
+ignoreFiles:
+  - "themes/.*/content/posts/.*"
 sectionPagesMenu: main
 security:
   allowContent:
@@ -260,10 +262,10 @@ menu:
       name: Support
       url: /support/
       weight: 40
-    - identifier: news
-      name: News
-      url: /news/
-      weight: 50
+  # - identifier: news
+  #   name: News
+  #   url: /news/
+  #   weight: 50
   categories:
     - identifier: prose
       name: Prose
