@@ -246,7 +246,7 @@ params:
     # logoLinkURL: ""                                    # Set a custom URL destination for the top header logo link.
 
   flexsearch: # Parameters for FlexSearch
-    enabled: trueS
+    enabled: true
 
 menu:
   main:
