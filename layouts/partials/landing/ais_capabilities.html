@@ -1,0 +1,24 @@
+{{ $sectionTitle := .Scratch.Get "sectionTitle" }}
+{{ with (index .Site.Data.landing $sectionTitle) }}
+{{ if .enable }}
+<section id="{{ $sectionTitle }}" class="ais-section">
+  <div class="container">
+    <div class="text-center mb-4 pb-1">
+      <h2 class="fw-bold text-primary">{{ .title }}</h2>
+      {{ with .subtitle }}<p class="text-muted para-desc mx-auto">{{ . | markdownify }}</p>{{ end }}
+    </div>
+    <div class="row g-4">
+      {{ range $i, $item := .items }}
+      {{ $bg := "" }}{{ with $item.image }}{{ with resources.Get . }}{{ $bg = (.Resize "900x webp q80").RelPermalink }}{{ end }}{{ end }}
+      <div class="{{ if eq $item.width "wide" }}col-lg-7{{ else }}col-lg-5{{ end }}">
+        <a href="{{ with $item.url }}{{ relLangURL . }}{{ else }}#{{ end }}" class="ais-tile {{ if $bg }}ais-tile-img{{ else if eq (mod $i 2) 0 }}ais-tile-grad-r{{ else }}ais-tile-grad-l{{ end }} d-block h-100 rounded-3 shadow p-4 text-decoration-none" {{ with $bg }}style="background-image: url('{{ . }}')"{{ end }}>
+          <h3 class="h4 fw-bolder text-white">{{ $item.title }}</h3>
+          <p class="text-white-50 mb-0 mt-3">{{ $item.description }}</p>
+        </a>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+{{ end }}

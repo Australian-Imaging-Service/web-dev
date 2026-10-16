@@ -1,0 +1,21 @@
+$ais-blue:   #305AD9;
+$ais-green:  #36D97D;
+$ais-purple: #B663DF;
+$ais-navy:   #080E26;
+$ais-navy-2: #0E1A3E;
+
+$primary: $ais-blue;
+$success: $ais-green;
+$theme-colors: map-merge($theme-colors, (
+  "primary": $primary,
+  "success": $success,
+));
+
+$border-radius:            .5rem;
+$border-radius-sm:         .375rem;
+$border-radius-lg:         .75rem;
+$card-border-radius:       .75rem;
+$card-inner-border-radius: calc(.75rem - 1px);
+$btn-border-radius:        .5rem;
+$btn-border-radius-lg:     .625rem;
+$btn-border-radius-sm:     .375rem;

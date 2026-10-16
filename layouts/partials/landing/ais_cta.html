@@ -1,0 +1,12 @@
+{{ $sectionTitle := .Scratch.Get "sectionTitle" }}
+{{ with (index .Site.Data.landing $sectionTitle) }}
+{{ if .enable }}
+<section id="{{ $sectionTitle }}" class="ais-cta text-center">
+  <div class="container py-5">
+    <h2 class="fw-bold text-white">{{ .title }}</h2>
+    {{ with .subtitle }}<p class="text-white-50 para-desc mx-auto">{{ . }}</p>{{ end }}
+    {{ with .button }}<a href="{{ relLangURL .url }}" class="btn btn-lg btn-primary rounded-pill px-4 mt-2">{{ .text }}</a>{{ end }}
+  </div>
+</section>
+{{ end }}
+{{ end }}

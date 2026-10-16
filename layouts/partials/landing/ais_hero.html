@@ -1,0 +1,17 @@
+{{ $sectionTitle := .Scratch.Get "sectionTitle" }}
+{{ with (index .Site.Data.landing $sectionTitle) }}
+{{ if .enable }}
+{{ $bg := "" }}
+{{ with .backgroundImage }}{{ with resources.Get . }}{{ $bg = (.Resize (printf "%dx webp q85" (cond (gt .Width 1600) 1600 .Width))).RelPermalink }}{{ end }}{{ end }}
+<section id="{{ $sectionTitle }}" class="ais-hero" {{ with $bg }}style="--ais-hero-bg: url('{{ . }}')"{{ end }}>
+  <div class="container position-relative">
+    <div class="row">
+      <div class="col-lg-7 text-center text-lg-start">
+        {{ range .titleLines }}<h1 class="display-4 fw-bolder text-white mb-1">{{ . }}</h1>{{ end }}
+        {{ with .subtitle }}<p class="lead mt-4 mb-0 ais-hero-sub mx-auto mx-lg-0">{{ . | markdownify }}</p>{{ end }}
+      </div>
+    </div>
+  </div>
+</section>
+{{ end }}
+{{ end }}
