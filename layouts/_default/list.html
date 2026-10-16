@@ -8,8 +8,7 @@
       <div class="col-md-6 col-lg-4">
         <a href="{{ .RelPermalink }}" class="card h-100 border-0 shadow-sm rounded-3 text-decoration-none">
           <div class="card-body">
-            {{ with .Params.header }}<p class="small text-uppercase text-primary fw-semibold mb-1">{{ . }}</p>{{ end }}
-            <h2 class="h5 fw-bold text-body">{{ .Title }}</h2>
+            <h2 class="h5 fw-bold">{{ .Title }}</h2>
             <p class="text-muted mb-0">{{ .Summary | plainify | truncate 160 }}</p>
           </div>
         </a>

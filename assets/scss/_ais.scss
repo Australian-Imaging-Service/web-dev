@@ -99,7 +99,7 @@ $dm-muted: #9aa3ba;
   .alert-primary { background: rgba($ais-blue, .18); color: $dm-text; }
   .footer, .footer-bar { background: $ais-navy !important; color: $dm-muted;
     p, a, span { color: $dm-muted !important; } }
-  a:not(.btn):not(.card):not(.ais-tile) { color: lighten($ais-blue, 22%); }
+  #content a:not(.btn):not(.card):not(.ais-tile) { color: lighten($ais-blue, 22%); }
   .text-success { color: $ais-green !important; }
 }
 
