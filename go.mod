@@ -1,4 +1,4 @@
-module github.com/Australian-Imaging-Service/web-dev
+module github.com/Australian-Imaging-Service/Australian-Imaging-Service.github.io
 
 go 1.23
 

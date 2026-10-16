@@ -9,8 +9,8 @@
 ## Site development
 
 ```bash
-git clone --recurse-submodules git@github.com:Australian-Imaging-Service/web-dev.git
-cd web-dev
+git clone --recurse-submodules git@github.com:Australian-Imaging-Service/Australian-Imaging-Service.github.io.git
+cd Australian-Imaging-Service.github.io
 
 # Fix TailBliss theme yaml violation in its config file
 # themes/tailbliss/hugo.yaml
