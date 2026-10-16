@@ -96,6 +96,8 @@ partners:
     - { title: Macquarie University, image: images/main/partner_logos/mqu.svg }
     - { title: The University of Western Australia, image: images/main/partner_logos/uwa.svg }
     - { title: QUT, image: images/main/partner_logos/qut.svg }
+    - { title: University of Newcastle, image: images/main/partner_logos/university-of-newcastle_logo_rgb_white.svg }
+    - { title: Swinburne University of Technology, image: images/main/partner_logos/SUT_Lscape_Keyline_rgb_mono_white.svg }
 
 join:
   enable: true
