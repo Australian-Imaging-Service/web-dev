@@ -73,7 +73,7 @@
 .ais-hero .btn-outline-light { color: $white; border-color: rgba($white, .8);
   &:hover { color: $ais-navy; background: $white; } }
 
-.ais-logo img { filter: invert(100%); }
+.ais-logo img { filter: invert(1) hue-rotate(180deg); }
 
 .ais-mode .toggle-light { display: none; }
 [data-dark-mode] .ais-mode .toggle-dark { display: none; }
