@@ -12,6 +12,9 @@ security:
   allowContent:
     - '! ^text/org$'
 
+build:
+  noJSConfigInAssets: true
+
 module:
   hugoVersion:
     extended: true
