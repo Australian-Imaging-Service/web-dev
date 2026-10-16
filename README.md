@@ -1,10 +1,12 @@
-# Hugo website with tailbliss and LotusDocs theme.
+# Australian Imaging Service website
+
+Hugo site using the [Lotus Docs](https://github.com/colinwilson/lotusdocs) theme.
 
 ## Prerequisites
 
 * [Go language installation](https://go.dev/doc/install)
 * [Dart Sass installation](https://gohugo.io/functions/css/sass/#development-environment)
-* [Hugo installation](https://gohugo.io/installation/)
+* [Hugo extended installation](https://gohugo.io/installation/), same version as `HUGO_VERSION` in `.github/workflows/hugo.yaml`
 
 ## Site development
 
@@ -12,11 +14,17 @@
 git clone --recurse-submodules git@github.com:Australian-Imaging-Service/Australian-Imaging-Service.github.io.git
 cd Australian-Imaging-Service.github.io
 
-# Install dependancies
 hugo mod get
 
 hugo server
 ```
+
+## Where things live
+
+* Homepage sections: `data/landing.yaml`, rendered by `layouts/partials/landing/`
+* Styling: `assets/scss/_ais-variables.scss` and `assets/scss/_ais.scss`
+* Navbar and footer links: `menu.primary` and `menu.footer` in `config/_default/hugo.yaml`
+* Docs: `content/docs/`, plus the `charts` and `pipelines` repos mounted as Hugo modules
 
 ## Known issues
 
