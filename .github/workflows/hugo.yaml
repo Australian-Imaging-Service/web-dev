@@ -59,13 +59,6 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-      - name: ISSUE run patches
-        run: |
-          shopt -s nullglob
-          for p in patches/*.patch; do
-            patch -p0 < "$p" || true
-          done
-          shopt -u nullglob
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5

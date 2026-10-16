@@ -12,10 +12,6 @@
 git clone --recurse-submodules git@github.com:Australian-Imaging-Service/Australian-Imaging-Service.github.io.git
 cd Australian-Imaging-Service.github.io
 
-# Fix TailBliss theme yaml violation in its config file
-# themes/tailbliss/hugo.yaml
-patch < patches/tailbliss.patch
-
 # Install dependancies
 hugo mod get
 npm install
