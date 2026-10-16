@@ -14,8 +14,6 @@ cd Australian-Imaging-Service.github.io
 
 # Install dependancies
 hugo mod get
-npm install
-npm audit fix
 
 hugo server
 ```
