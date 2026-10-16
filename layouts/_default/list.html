@@ -1,0 +1,21 @@
+{{ define "main" }}
+<article>
+  {{ partial "ais/page-header.html" . }}
+  <div class="container py-5">
+    {{ with .Content }}<div class="ais-content mb-5">{{ . }}</div>{{ end }}
+    <div class="row g-4">
+      {{ range .Pages }}
+      <div class="col-md-6 col-lg-4">
+        <a href="{{ .RelPermalink }}" class="card h-100 border-0 shadow-sm rounded-3 text-decoration-none">
+          <div class="card-body">
+            {{ with .Params.header }}<p class="small text-uppercase text-primary fw-semibold mb-1">{{ . }}</p>{{ end }}
+            <h2 class="h5 fw-bold text-body">{{ .Title }}</h2>
+            <p class="text-muted mb-0">{{ .Summary | plainify | truncate 160 }}</p>
+          </div>
+        </a>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</article>
+{{ end }}

@@ -53,7 +53,6 @@ markup:
       block: true
 
 theme:
-  - tailbliss
   - lotusdocs
 
 params:
@@ -195,6 +194,10 @@ params:
   secondary_font: "Inter"     # Default is System font
   mono_font: "Fira Code" # Default is System font
 
+  navCta:
+    text: Find your node
+    url: /support/find_your_node/
+  tagline: Your trustworthy imaging partner for research excellence.
   footer:
     copyright: "© 2026 Australian Imaging Service. All rights reserved."
     # version: true # includes git commit info
@@ -249,6 +252,11 @@ params:
     enabled: true
 
 menu:
+  primary:
+    - {name: Docs, url: /docs/, weight: 10}
+    - {name: Features, url: /features/, weight: 20}
+    - {name: About, url: /about/, weight: 30}
+    - {name: Support, url: /support/, weight: 40}
   main:
     - identifier: features
       name: Features

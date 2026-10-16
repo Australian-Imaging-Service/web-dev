@@ -1,0 +1,23 @@
+<footer class="ais-footer">
+  <div class="container py-5">
+    <div class="row g-5">
+      <div class="col-lg-4">
+        {{ with site.Params.tagline }}<p class="mb-0 ais-footer-tagline">{{ . }}</p>{{ end }}
+      </div>
+      <div class="col-lg-8">
+        <div class="row row-cols-2 row-cols-md-4 g-4">
+          {{ range site.Menus.footer }}
+          <div class="col">
+            <a href="{{ .URL | relLangURL }}" class="d-block fw-bold text-white mb-2">{{ .Name }}</a>
+            <div class="list-group list-group-flush">
+              {{ range .Children }}<a class="list-group-item list-group-item-action px-0" href="{{ .URL | relLangURL }}">{{ .Name }}</a>{{ end }}
+            </div>
+          </div>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+    <hr class="my-4">
+    <p class="mb-0 small">{{ replace site.Params.footer.copyright ":YEAR:" (now.Format "2006") | markdownify }}</p>
+  </div>
+</footer>

@@ -1,0 +1,10 @@
+<section class="ais-page-header text-center">
+  <div class="container py-5">
+    {{ with .Params.header }}<p class="text-uppercase small fw-semibold ais-eyebrow mb-2">{{ . }}</p>{{ end }}
+    <h1 class="display-5 fw-bolder text-white">{{ .Title }}</h1>
+    {{ with .Description }}<p class="lead text-white-50 mx-auto mt-3 ais-hero-sub">{{ . }}</p>{{ end }}
+    {{ with .Params.signature }}<p class="text-white mt-4 mb-0 fw-semibold">{{ . }}</p>{{ end }}
+    {{ with .Params.designation }}<p class="text-white-50 small">{{ . }}</p>{{ end }}
+    {{ with .Params.buttonText }}<a href="#content-body" class="btn btn-primary btn-lg mt-3">{{ . | safeHTML }}</a>{{ end }}
+  </div>
+</section>
