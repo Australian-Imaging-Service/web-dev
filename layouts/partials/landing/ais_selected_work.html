@@ -1,0 +1,23 @@
+{{ $sectionTitle := .Scratch.Get "sectionTitle" }}
+{{ with (index .Site.Data.landing $sectionTitle) }}
+{{ if .enable }}
+<section id="{{ $sectionTitle }}" class="ais-section ais-section-alt">
+  <div class="container">
+    <div class="text-center mb-4 pb-1"><h2 class="fw-bold text-primary">{{ .title }}</h2>{{ with .subtitle }}<p class="text-muted para-desc mx-auto">{{ . }}</p>{{ end }}</div>
+    <div class="row g-4">
+      {{ range .items }}
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow rounded-3 overflow-hidden">
+          {{ with .image }}{{ with resources.Get . }}{{ with .Resize "800x webp q80" }}<img src="{{ .RelPermalink }}" class="card-img-top ais-card-img" alt="" loading="lazy">{{ end }}{{ end }}{{ end }}
+          <div class="card-body">
+            <h3 class="h5 fw-bold">{{ .title }}</h3>
+            <p class="text-muted mb-0">{{ .description }}</p>
+          </div>
+        </div>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+{{ end }}

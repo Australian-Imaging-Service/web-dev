@@ -1,0 +1,10 @@
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3 justify-content-center">
+  {{ range . }}
+  {{ $title := .title }}
+  <div class="col">
+    <div class="ais-logo d-flex align-items-center justify-content-center h-100 p-3 rounded-3">
+      {{ with .image }}{{ with resources.Get . }}<img src="{{ .RelPermalink }}" alt="{{ $title }}" loading="lazy">{{ end }}{{ end }}
+    </div>
+  </div>
+  {{ end }}
+</div>

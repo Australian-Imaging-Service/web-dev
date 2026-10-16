@@ -1,0 +1,11 @@
+{{ $sectionTitle := .Scratch.Get "sectionTitle" }}
+{{ with (index .Site.Data.landing $sectionTitle) }}
+{{ if .enable }}
+<section id="{{ $sectionTitle }}" class="ais-section">
+  <div class="container">
+    <div class="text-center mb-4 pb-1"><h2 class="fw-bold text-primary">{{ .title }}</h2>{{ with .subtitle }}<p class="text-muted para-desc mx-auto">{{ . }}</p>{{ end }}</div>
+    {{ partial "ais/logo-grid.html" .items }}
+  </div>
+</section>
+{{ end }}
+{{ end }}
